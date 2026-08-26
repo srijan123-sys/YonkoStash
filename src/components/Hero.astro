@@ -1,0 +1,103 @@
+---
+// Hero.astro - Powerful Hero Section with Kyuubi to Conqueror's Haki Text Gradient
+---
+
+<section class="relative pt-14 pb-16 md:pt-24 md:pb-24 overflow-hidden">
+  <!-- Hero Glow Accents -->
+  <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-4xl h-80 bg-gradient-to-tr from-[#F97316]/15 via-[#EF4444]/10 to-[#06B6D4]/10 blur-[100px] pointer-events-none rounded-full"></div>
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+    
+    <!-- Anime Pill Announcement Tag -->
+    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-mist border border-main text-xs font-mono text-main mb-6 shadow-sm hover:border-[#06B6D4]/40 transition-colors">
+      <span class="inline-flex items-center justify-center w-4 h-4 rounded-full bg-[#F97316]/20 text-[#F97316] text-[10px] font-bold">
+        🔥
+      </span>
+      <span class="text-muted">Version 2.0 Live:</span>
+      <span class="text-white font-medium">Over 2,400+ Repacked Games</span>
+      <span class="text-[#06B6D4] font-semibold">→</span>
+    </div>
+
+    <!-- Main Headline with Kyuubi to Conqueror's Red Gradient -->
+    <h1 class="text-4xl sm:text-6xl md:text-7xl font-mono font-extrabold tracking-tight text-white mb-6 max-w-4xl mx-auto leading-[1.1]">
+      Unlock the <br class="hidden sm:inline" />
+      <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#F97316] via-[#EF4444] to-[#F97316] animate-gradient">
+        Ultimate Arsenal.
+      </span>
+    </h1>
+
+    <!-- Sub-headline -->
+    <p class="text-lg sm:text-xl text-muted max-w-2xl mx-auto mb-10 leading-relaxed font-sans">
+      Ad-free, blazing-fast game library. Built for pirates and shinobi who demand pure unthrottled downloads without fake buttons or intrusive trackers.
+    </p>
+
+    <!-- CTAs -->
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
+      <a 
+        href="#bounties" 
+        class="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-3.5 rounded-xl font-mono font-bold text-sm text-white bg-gradient-to-r from-[#F97316] to-[#EF4444] hover:from-[#ea580c] hover:to-[#dc2626] shadow-xl shadow-orange-500/20 hover:shadow-orange-500/35 transition-all duration-200 transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-[#F97316]"
+      >
+        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+        </svg>
+        <span>Explore The Bounties</span>
+      </a>
+
+      <a 
+        href="#features" 
+        class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl font-mono font-semibold text-sm text-main bg-mist hover:bg-[#1A1A2A] border border-main hover:border-hover transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#06B6D4]"
+      >
+        <svg class="w-4 h-4 text-[#06B6D4]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+        </svg>
+        <span>Why We Outrank Steamunlocked</span>
+      </a>
+    </div>
+
+    <!-- Micro Value Pillars / Trust Badges (Vercel Precision Style) -->
+    <div id="features" class="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 max-w-5xl mx-auto pt-6 border-t border-main">
+      
+      <div class="flex items-center gap-3 p-3 rounded-lg bg-mist/60 border border-white/[0.04] text-left">
+        <div class="p-2 rounded-md bg-[#F97316]/10 text-[#F97316] shrink-0 font-mono text-xs font-bold">
+          0x
+        </div>
+        <div>
+          <div class="text-xs font-semibold text-white font-mono">Zero Ad Popups</div>
+          <div class="text-[11px] text-muted">No redirect loops or trackers</div>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3 p-3 rounded-lg bg-mist/60 border border-white/[0.04] text-left">
+        <div class="p-2 rounded-md bg-[#06B6D4]/10 text-[#06B6D4] shrink-0 font-mono text-xs font-bold">
+          ⚡
+        </div>
+        <div>
+          <div class="text-xs font-semibold text-white font-mono">Gigabit Mirrors</div>
+          <div class="text-[11px] text-muted">Direct unthrottled CDN pipes</div>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3 p-3 rounded-lg bg-mist/60 border border-white/[0.04] text-left">
+        <div class="p-2 rounded-md bg-[#EF4444]/10 text-[#EF4444] shrink-0 font-mono text-xs font-bold">
+          🛡️
+        </div>
+        <div>
+          <div class="text-xs font-semibold text-white font-mono">SHA-256 Verified</div>
+          <div class="text-[11px] text-muted">Clean, tested & virus-scanned</div>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3 p-3 rounded-lg bg-mist/60 border border-white/[0.04] text-left">
+        <div class="p-2 rounded-md bg-emerald-500/10 text-emerald-400 shrink-0 font-mono text-xs font-bold">
+          ⚔️
+        </div>
+        <div>
+          <div class="text-xs font-semibold text-white font-mono">Pre-Installed DLCs</div>
+          <div class="text-[11px] text-muted">1-click unzip and play</div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>

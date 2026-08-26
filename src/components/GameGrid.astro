@@ -1,0 +1,251 @@
+---
+// GameGrid.astro - Responsive Grid with Live Search & Category Filtering
+import GameCard from './GameCard.astro';
+import { games } from '../data/games';
+
+const categories = [
+  { id: "all", label: "All Bounties", count: games.length.toString() },
+  { id: "hot", label: "🔥 Highest Bounties", count: games.filter(g => g.isHot).length.toString() },
+  { id: "shinobi", label: "⚔️ Shinobi Wars", count: games.filter(g => g.genres.some(gen => gen.toLowerCase().includes("shinobi"))).length.toString() },
+  { id: "fleet", label: "🏴‍☠️ Grand Fleet", count: games.filter(g => g.genres.some(gen => gen.toLowerCase().includes("grand fleet"))).length.toString() },
+  { id: "rpg", label: "📜 Jutsu / RPG", count: games.filter(g => g.genres.some(gen => gen.toLowerCase().includes("rpg"))).length.toString() },
+];
+---
+
+<section id="bounties" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 scroll-mt-20">
+  
+  <!-- Section Header -->
+  <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8 pb-4 border-b border-main">
+    <div>
+      <div class="inline-flex items-center gap-2 text-xs font-mono font-semibold uppercase tracking-widest text-[#F97316] mb-1">
+        <span class="w-2 h-2 rounded-full bg-[#F97316]"></span>
+        Grand Line Armory
+      </div>
+      <h2 class="text-2xl sm:text-3xl font-mono font-bold text-white tracking-tight">
+        The Bounties <span id="games-count-label" class="text-sm font-normal text-muted font-sans">({games.length} Available Repacks)</span>
+      </h2>
+    </div>
+
+    <!-- Quick Search input inside Grid for mobile/desktop -->
+    <div class="flex items-center gap-3">
+      <div class="relative w-full sm:w-64">
+        <input 
+          id="grid-search-input"
+          type="text" 
+          placeholder="Filter game library..." 
+          class="w-full pl-9 pr-4 py-1.5 text-xs bg-mist border border-main focus:border-[#06B6D4] rounded-lg text-white placeholder-[#A1A1AA] focus:outline-none focus:ring-1 focus:ring-[#06B6D4] transition-all font-mono"
+        />
+        <svg class="w-4 h-4 text-muted absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filter & Category Pills (Anime Theme Categories) -->
+  <div class="flex items-center gap-2 overflow-x-auto pb-4 mb-8 scrollbar-none" id="category-pill-container">
+    {categories.map((category, index) => (
+      <button
+        type="button"
+        data-filter-category={category.id}
+        class={`category-tab-btn px-4 py-2 rounded-lg text-xs font-mono font-medium whitespace-nowrap transition-all duration-200 flex items-center gap-2 border cursor-pointer ${
+          index === 0
+            ? "active-tab bg-gradient-to-r from-[#F97316] to-[#EF4444] text-white border-transparent shadow-md shadow-orange-500/15"
+            : "bg-mist text-muted hover:text-main border-main hover:border-hover"
+        }`}
+      >
+        <span>{category.label}</span>
+        <span class={`badge-count px-1.5 py-0.2 rounded text-[10px] ${index === 0 ? 'bg-black/20 text-white' : 'bg-white/[0.05] text-muted'}`}>
+          {category.count}
+        </span>
+      </button>
+    ))}
+  </div>
+
+  <!-- Game Cards Responsive Grid -->
+  <div id="games-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+    {games.map((game) => (
+      <GameCard
+        title={game.title}
+        slug={game.slug}
+        genres={game.genres}
+        size={game.size}
+        rating={game.rating}
+        downloads={game.downloads}
+        isHot={game.isHot}
+        version={game.version}
+        bounty={game.bounty}
+        accentColor={game.accentColor}
+        image={game.banner}
+      />
+    ))}
+  </div>
+
+  <!-- No Results Fallback (Hidden by default) -->
+  <div id="no-results" class="hidden text-center py-16 px-4 rounded-2xl bg-mist/40 border border-main my-8">
+    <div class="w-16 h-16 rounded-full bg-[#EF4444]/10 text-[#EF4444] text-2xl flex items-center justify-center mx-auto mb-4 font-mono">
+      🧭
+    </div>
+    <h3 class="text-lg font-mono font-bold text-white mb-2">You're lost like Zoro!</h3>
+    <p class="text-sm text-muted max-w-md mx-auto mb-4 font-sans">
+      No game bounties matched your current search query. Try another term or reset your filters.
+    </p>
+    <button 
+      id="reset-search-btn"
+      class="px-4 py-2 rounded-lg text-xs font-mono font-medium text-white bg-mist border border-main hover:border-[#F97316] transition-colors"
+    >
+      Clear Search & Show All
+    </button>
+  </div>
+
+  <!-- Catalog Request Banner -->
+  <div class="mt-12 p-8 rounded-2xl bg-gradient-to-b from-[#14141F] to-[#0A0A0F] border border-main text-center relative overflow-hidden">
+    <div class="absolute inset-0 bg-grid-pattern opacity-30"></div>
+    <div class="relative z-10 max-w-xl mx-auto flex flex-col items-center gap-4">
+      <div class="w-12 h-12 rounded-2xl bg-[#F97316]/10 border border-[#F97316]/30 flex items-center justify-center text-[#F97316] text-xl font-bold font-mono">
+        ☠️
+      </div>
+      <h3 class="text-xl font-mono font-bold text-white">Looking for a Specific Bounty?</h3>
+      <p class="text-sm text-muted">
+        Our archive houses over 2,400 clean repacks. Submit a game request to the Pirate Syndicate or join our community channel.
+      </p>
+      <div class="flex flex-wrap justify-center gap-3 pt-2">
+        <a 
+          href="#request" 
+          class="px-5 py-2.5 rounded-lg text-xs font-mono font-semibold text-white bg-[#F97316] hover:bg-[#ea580c] transition-colors"
+        >
+          Request Game
+        </a>
+        <a 
+          href="https://discord.com" 
+          target="_blank"
+          rel="noopener noreferrer"
+          class="px-5 py-2.5 rounded-lg text-xs font-mono font-semibold text-main bg-mist border border-main hover:border-[#06B6D4] transition-colors"
+        >
+          Join Shinobi Discord
+        </a>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- Client-side Interactive Filter Script -->
+<script>
+  function setupGameGridFilters() {
+    const gridSearch = document.getElementById('grid-search-input') as HTMLInputElement | null;
+    const globalSearch = document.getElementById('global-search-input') as HTMLInputElement | null;
+    const categoryBtns = document.querySelectorAll('.category-tab-btn');
+    const cards = document.querySelectorAll('[data-game-card]') as NodeListOf<HTMLElement>;
+    const noResults = document.getElementById('no-results');
+    const countLabel = document.getElementById('games-count-label');
+    const resetBtn = document.getElementById('reset-search-btn');
+
+    let currentCategory = 'all';
+    let currentQuery = '';
+
+    function filterCards() {
+      let visibleCount = 0;
+      const query = currentQuery.trim().toLowerCase();
+
+      cards.forEach((card) => {
+        const title = card.getAttribute('data-title') || '';
+        const genres = card.getAttribute('data-genres') || '';
+        const isHot = card.getAttribute('data-ishot') === 'true';
+
+        let matchesCategory = false;
+        if (currentCategory === 'all') {
+          matchesCategory = true;
+        } else if (currentCategory === 'hot') {
+          matchesCategory = isHot;
+        } else if (currentCategory === 'shinobi') {
+          matchesCategory = genres.includes('shinobi');
+        } else if (currentCategory === 'fleet') {
+          matchesCategory = genres.includes('grand fleet');
+        } else if (currentCategory === 'rpg') {
+          matchesCategory = genres.includes('rpg') || genres.includes('jutsu');
+        }
+
+        const matchesQuery = !query || title.includes(query) || genres.includes(query);
+
+        if (matchesCategory && matchesQuery) {
+          card.style.display = 'flex';
+          visibleCount++;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+
+      if (noResults) {
+        if (visibleCount === 0) {
+          noResults.classList.remove('hidden');
+        } else {
+          noResults.classList.add('hidden');
+        }
+      }
+
+      if (countLabel) {
+        countLabel.textContent = `(${visibleCount} Available Repacks)`;
+      }
+    }
+
+    // Category button clicks
+    categoryBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const cat = btn.getAttribute('data-filter-category') || 'all';
+        currentCategory = cat;
+
+        categoryBtns.forEach((b) => {
+          b.className = "category-tab-btn px-4 py-2 rounded-lg text-xs font-mono font-medium whitespace-nowrap transition-all duration-200 flex items-center gap-2 border cursor-pointer bg-mist text-muted hover:text-main border-main hover:border-hover";
+          const badge = b.querySelector('.badge-count');
+          if (badge) badge.className = "badge-count px-1.5 py-0.2 rounded text-[10px] bg-white/[0.05] text-muted";
+        });
+
+        btn.className = "category-tab-btn active-tab px-4 py-2 rounded-lg text-xs font-mono font-medium whitespace-nowrap transition-all duration-200 flex items-center gap-2 border cursor-pointer bg-gradient-to-r from-[#F97316] to-[#EF4444] text-white border-transparent shadow-md shadow-orange-500/15";
+        const activeBadge = btn.querySelector('.badge-count');
+        if (activeBadge) activeBadge.className = "badge-count px-1.5 py-0.2 rounded text-[10px] bg-black/20 text-white";
+
+        filterCards();
+      });
+    });
+
+    // Search events
+    if (gridSearch) {
+      gridSearch.addEventListener('input', (e) => {
+        currentQuery = (e.target as HTMLInputElement).value;
+        if (globalSearch && globalSearch.value !== currentQuery) {
+          globalSearch.value = currentQuery;
+        }
+        filterCards();
+      });
+    }
+
+    if (globalSearch) {
+      globalSearch.addEventListener('input', (e) => {
+        currentQuery = (e.target as HTMLInputElement).value;
+        if (gridSearch && gridSearch.value !== currentQuery) {
+          gridSearch.value = currentQuery;
+        }
+        filterCards();
+        // scroll down smoothly to bounties if not already in view
+        const bountiesSection = document.getElementById('bounties');
+        if (bountiesSection && window.scrollY < 200) {
+          bountiesSection.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    }
+
+    if (resetBtn) {
+      resetBtn.addEventListener('click', () => {
+        currentQuery = '';
+        if (gridSearch) gridSearch.value = '';
+        if (globalSearch) globalSearch.value = '';
+        const allBtn = document.querySelector('[data-filter-category="all"]') as HTMLElement | null;
+        if (allBtn) allBtn.click();
+      });
+    }
+  }
+
+  // Run on page load & Astro view transitions
+  document.addEventListener('DOMContentLoaded', setupGameGridFilters);
+</script>

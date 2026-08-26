@@ -1,0 +1,319 @@
+---
+// Navbar.astro - Sticky Glassmorphism Header with Anime Theme Accents
+import { games } from '../data/games';
+
+const searchData = games.map(game => ({
+  id: game.id,
+  title: game.title,
+  slug: game.slug,
+  banner: game.banner,
+  genres: game.genres,
+  accentColor: game.accentColor
+}));
+---
+
+<header class="sticky top-0 z-50 w-full border-b border-main bg-void/80 backdrop-blur-md transition-all duration-200">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
+    
+    <!-- Logo & Brand -->
+    <a href="/" class="flex items-center gap-3 group shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#06B6D4] rounded-lg">
+      <div class="relative w-9 h-9 rounded-xl bg-gradient-to-br from-[#F97316] via-[#EF4444] to-[#06B6D4] p-[1px] shadow-lg shadow-orange-500/20 group-hover:shadow-cyan-500/30 transition-all duration-300">
+        <div class="w-full h-full bg-void rounded-[11px] flex items-center justify-center">
+          <!-- Anime Vault Crest: Sharingan + Strawhat Motif in SVG -->
+          <svg class="w-5 h-5 text-[#F97316] group-hover:text-[#06B6D4] transition-colors duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <!-- Outer Ring / Strawhat Brim -->
+            <ellipse cx="12" cy="14" rx="9" ry="4" stroke="currentColor" stroke-width="1.5" />
+            <!-- Sharingan / Crown Top -->
+            <path d="M7 14c0-3.5 2.2-6.5 5-6.5s5 3 5 6.5" stroke="currentColor" stroke-width="1.8" />
+            <circle cx="12" cy="11" r="1.5" fill="currentColor" />
+            <!-- Chakra Sparkle -->
+            <path d="M12 3v2M12 19v2" stroke="#06B6D4" stroke-width="1.5" />
+          </svg>
+        </div>
+      </div>
+      
+      <div class="flex flex-col">
+        <span class="font-mono text-lg font-bold tracking-tight text-main group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-main group-hover:to-[#06B6D4] transition-all">
+          Anime<span class="text-[#F97316]">Vault</span>
+        </span>
+        <span class="text-[9px] font-mono tracking-widest text-muted uppercase -mt-1 flex items-center gap-1">
+          <span class="inline-block w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+          Direct Repacks
+        </span>
+      </div>
+    </a>
+
+    <!-- Central Search Bar (Command-K Style) -->
+    <div class="flex-1 max-w-md mx-4 hidden md:block relative">
+      <div class="relative group z-50">
+        <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-muted group-focus-within:text-[#06B6D4] transition-colors">
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+        </div>
+        <input
+          id="global-search-input"
+          type="text"
+          placeholder="Search 2,400+ repacks, shinobi jutsu & games..."
+          class="w-full pl-10 pr-16 py-2 bg-mist border border-main hover:border-hover focus:border-[#06B6D4] rounded-lg text-sm text-main placeholder:text-muted/60 focus:outline-none focus:ring-1 focus:ring-[#06B6D4] transition-all"
+        />
+        <div class="absolute inset-y-0 right-0 pr-2.5 flex items-center pointer-events-none">
+          <kbd class="px-1.5 py-0.5 text-[10px] font-mono text-muted bg-void border border-main rounded shadow-sm">
+            ⌘K
+          </kbd>
+        </div>
+      </div>
+
+      <!-- Search Results Dropdown -->
+      <div id="search-dropdown" class="absolute top-full left-0 right-0 mt-2 bg-void/95 backdrop-blur-xl border border-main rounded-xl shadow-2xl opacity-0 invisible transition-all duration-200 transform translate-y-1 z-40 overflow-hidden max-h-[60vh] flex flex-col">
+        <div class="px-4 py-2 text-xs font-mono font-bold text-muted uppercase tracking-widest border-b border-main bg-mist/50">
+          Search Results
+        </div>
+        <div id="search-results-list" class="overflow-y-auto p-2 flex flex-col gap-1">
+          <!-- Results injected via JS -->
+        </div>
+        <div id="search-empty-state" class="hidden p-6 text-center text-sm text-muted">
+          No jutsu or repacks found.
+        </div>
+      </div>
+      <!-- Overlay to close dropdown -->
+      <div id="search-overlay" class="fixed inset-0 bg-black/20 z-30 hidden"></div>
+    </div>
+
+    <!-- Navigation Links & Actions -->
+    <nav class="flex items-center gap-1 sm:gap-6">
+      <div class="hidden lg:flex items-center gap-1 text-sm font-medium">
+        <a 
+          href="#bounties" 
+          class="px-3 py-1.5 rounded-md text-main hover:text-[#06B6D4] hover:bg-mist transition-colors"
+        >
+          All Games
+        </a>
+        <a 
+          href="#shinobi-wars" 
+          class="px-3 py-1.5 rounded-md text-muted hover:text-[#06B6D4] hover:bg-mist transition-colors flex items-center gap-1.5"
+        >
+          <span class="w-1.5 h-1.5 rounded-full bg-[#F97316]"></span>
+          Shinobi Wars
+        </a>
+        <a 
+          href="#grand-fleet" 
+          class="px-3 py-1.5 rounded-md text-muted hover:text-[#06B6D4] hover:bg-mist transition-colors flex items-center gap-1.5"
+        >
+          <span class="w-1.5 h-1.5 rounded-full bg-[#06B6D4]"></span>
+          Grand Fleet
+        </a>
+        <a 
+          href="#highest-bounties" 
+          class="px-3 py-1.5 rounded-md text-muted hover:text-[#EF4444] hover:bg-mist transition-colors flex items-center gap-1.5"
+        >
+          <span class="w-1.5 h-1.5 rounded-full bg-[#EF4444]"></span>
+          Top Bounties
+        </a>
+      </div>
+
+      <!-- Quick Action / Status Badge -->
+      <div class="flex items-center gap-3">
+        <!-- Theme Toggle -->
+        <button id="theme-toggle" class="p-2 rounded-full hover:bg-mist transition-colors text-muted hover:text-main focus:outline-none focus-visible:ring-2 focus-visible:ring-[#06B6D4]" aria-label="Toggle Theme">
+          <svg id="theme-toggle-light-icon" class="hidden w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+          </svg>
+          <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+          </svg>
+        </button>
+
+        <div class="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-mono bg-mist border border-main text-muted">
+          <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+          <span>Zero Ads</span>
+        </div>
+
+        <a 
+          href="#bounties" 
+          class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-mono font-semibold text-white bg-gradient-to-r from-[#F97316] to-[#EF4444] hover:opacity-90 transition-opacity shadow-md shadow-orange-500/10 focus:outline-none focus:ring-2 focus:ring-[#F97316]"
+        >
+          <span class="hidden sm:inline">Vault Access</span>
+          <span class="sm:hidden">Vault</span>
+          <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+          </svg>
+        </a>
+
+        <!-- Mobile Menu Button -->
+        <button id="mobile-menu-btn" class="lg:hidden p-1.5 -ml-1 text-muted hover:text-main focus:outline-none rounded-md hover:bg-mist transition-colors" aria-label="Toggle Menu">
+          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path id="menu-icon-path" stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
+
+    </nav>
+  </div>
+  
+  <!-- Mobile Menu Dropdown -->
+  <div id="mobile-menu" class="hidden absolute top-16 left-0 w-full bg-void/95 backdrop-blur-xl border-b border-main flex-col p-4 gap-2 shadow-2xl lg:hidden z-40 transition-all duration-300 origin-top">
+    <a href="#bounties" class="mobile-link px-4 py-3 rounded-lg text-main font-medium hover:bg-mist transition-colors border border-transparent hover:border-main">All Games</a>
+    <a href="#shinobi-wars" class="mobile-link px-4 py-3 rounded-lg text-muted hover:text-[#06B6D4] hover:bg-mist transition-colors flex items-center gap-3 border border-transparent hover:border-main">
+      <span class="w-2 h-2 rounded-full bg-[#F97316] shadow-[0_0_8px_#F97316]"></span> Shinobi Wars
+    </a>
+    <a href="#grand-fleet" class="mobile-link px-4 py-3 rounded-lg text-muted hover:text-[#06B6D4] hover:bg-mist transition-colors flex items-center gap-3 border border-transparent hover:border-main">
+      <span class="w-2 h-2 rounded-full bg-[#06B6D4] shadow-[0_0_8px_#06B6D4]"></span> Grand Fleet
+    </a>
+    <a href="#highest-bounties" class="mobile-link px-4 py-3 rounded-lg text-muted hover:text-[#EF4444] hover:bg-mist transition-colors flex items-center gap-3 border border-transparent hover:border-main">
+      <span class="w-2 h-2 rounded-full bg-[#EF4444] shadow-[0_0_8px_#EF4444]"></span> Top Bounties
+    </a>
+  </div>
+</header>
+
+<script>
+  const themeToggleBtn = document.getElementById('theme-toggle');
+  const darkIcon = document.getElementById('theme-toggle-dark-icon');
+  const lightIcon = document.getElementById('theme-toggle-light-icon');
+
+  function updateIcons() {
+    if (document.documentElement.classList.contains('dark')) {
+      darkIcon?.classList.add('hidden');
+      lightIcon?.classList.remove('hidden');
+    } else {
+      lightIcon?.classList.add('hidden');
+      darkIcon?.classList.remove('hidden');
+    }
+  }
+
+  updateIcons();
+
+  themeToggleBtn?.addEventListener('click', () => {
+    document.documentElement.classList.toggle('dark');
+    const isDark = document.documentElement.classList.contains('dark');
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    updateIcons();
+  });
+
+  // Mobile Menu Logic
+  const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const menuIconPath = document.getElementById('menu-icon-path');
+  const mobileLinks = document.querySelectorAll('.mobile-link');
+  let isMenuOpen = false;
+
+  function toggleMenu() {
+    isMenuOpen = !isMenuOpen;
+    if (isMenuOpen) {
+      mobileMenu?.classList.remove('hidden');
+      mobileMenu?.classList.add('flex');
+      menuIconPath?.setAttribute('d', 'M6 18L18 6M6 6l12 12'); // X icon
+    } else {
+      mobileMenu?.classList.add('hidden');
+      mobileMenu?.classList.remove('flex');
+      menuIconPath?.setAttribute('d', 'M4 6h16M4 12h16M4 18h16'); // Hamburger icon
+    }
+  }
+
+  mobileMenuBtn?.addEventListener('click', toggleMenu);
+
+  // Close menu when clicking a link
+  mobileLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      if(isMenuOpen) toggleMenu();
+    });
+  });
+
+  // Global Search Logic
+  const searchInput = document.getElementById('global-search-input') as HTMLInputElement | null;
+  const searchDropdown = document.getElementById('search-dropdown');
+  const searchResultsList = document.getElementById('search-results-list');
+  const searchEmptyState = document.getElementById('search-empty-state');
+  const searchOverlay = document.getElementById('search-overlay');
+  
+  // Inject serialized data safely
+  const rawData = decodeURIComponent(atob(document.getElementById('search-data-payload')?.dataset.payload || ''));
+  let searchData = [];
+  try {
+    searchData = JSON.parse(rawData);
+  } catch(e) {}
+
+  function openDropdown() {
+    searchDropdown?.classList.remove('opacity-0', 'invisible', 'translate-y-1');
+    searchDropdown?.classList.add('opacity-100', 'visible', 'translate-y-0');
+    searchOverlay?.classList.remove('hidden');
+  }
+
+  function closeDropdown() {
+    searchDropdown?.classList.add('opacity-0', 'invisible', 'translate-y-1');
+    searchDropdown?.classList.remove('opacity-100', 'visible', 'translate-y-0');
+    searchOverlay?.classList.add('hidden');
+  }
+
+  function getAccentColor(color: string) {
+    if (color === 'orange') return 'text-[#F97316] bg-[#F97316]/10';
+    if (color === 'red') return 'text-[#EF4444] bg-[#EF4444]/10';
+    if (color === 'cyan') return 'text-[#06B6D4] bg-[#06B6D4]/10';
+    return 'text-white bg-white/10';
+  }
+
+  function renderResults(query: string) {
+    if (!query) {
+      if (searchResultsList) searchResultsList.innerHTML = '';
+      searchEmptyState?.classList.add('hidden');
+      return;
+    }
+
+    const lowerQuery = query.toLowerCase();
+    const results = searchData.filter((game: any) => 
+      game.title.toLowerCase().includes(lowerQuery) || 
+      game.genres.some((g: string) => g.toLowerCase().includes(lowerQuery))
+    ).slice(0, 5); // Max 5 results
+
+    if (results.length === 0) {
+      if (searchResultsList) searchResultsList.innerHTML = '';
+      searchEmptyState?.classList.remove('hidden');
+    } else {
+      searchEmptyState?.classList.add('hidden');
+      if (searchResultsList) {
+        searchResultsList.innerHTML = results.map((game: any) => `
+          <a href="/game/${game.slug}" class="flex items-center gap-3 p-2 rounded-lg hover:bg-mist transition-colors group">
+            <div class="relative w-16 h-10 rounded shrink-0 overflow-hidden bg-mist border border-main">
+              <img src="${game.banner}" alt="${game.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+            </div>
+            <div class="flex-1 min-w-0">
+              <div class="text-sm font-semibold text-main truncate">${game.title}</div>
+              <div class="flex gap-1 mt-0.5">
+                ${game.genres.slice(0,2).map((g: string) => `<span class="text-[9px] font-mono px-1 rounded ${getAccentColor(game.accentColor)}">${g}</span>`).join('')}
+              </div>
+            </div>
+          </a>
+        `).join('');
+      }
+    }
+  }
+
+  // Keyboard shortcut (Cmd+K / Ctrl+K)
+  document.addEventListener('keydown', (e) => {
+    if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+      e.preventDefault();
+      searchInput?.focus();
+    }
+  });
+
+  searchInput?.addEventListener('input', (e) => {
+    const target = e.target as HTMLInputElement;
+    renderResults(target.value.trim());
+    if (target.value.trim().length > 0) {
+      openDropdown();
+    } else {
+      closeDropdown();
+    }
+  });
+
+  searchInput?.addEventListener('focus', () => {
+    if (searchInput.value.trim().length > 0) {
+      openDropdown();
+    }
+  });
+
+  searchOverlay?.addEventListener('click', closeDropdown);
+
+</script>
+
+<div id="search-data-payload" data-payload={Buffer.from(encodeURIComponent(JSON.stringify(searchData))).toString('base64')} class="hidden"></div>
