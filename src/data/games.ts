@@ -8,7 +8,10 @@ export interface Game {
   size: string;
   rating: string;
   downloads: string;
-  isHot: boolean;
+  isHot: boolean; // Triggers Highest Bounty
+  isShinobiWars?: boolean; // Custom flag for Shinobi Wars
+  isGrandFleet?: boolean; // Custom flag for Grand Fleet
+  isJutsuRPG?: boolean; // Custom flag for Jutsu RPG
   version: string;
   bounty: string;
   releaseDate: string;
@@ -48,6 +51,7 @@ export const games: Game[] = [
     rating: "4.95",
     downloads: "54.2K",
     isHot: true,
+    isShinobiWars: true,
     version: "v1.0.9 + All DLCs",
     bounty: "1,500,000,000 ฿",
     releaseDate: "August 20, 2024",

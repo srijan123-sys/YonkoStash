@@ -16,37 +16,29 @@ const searchData = games.map(game => ({
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
     
     <!-- Logo & Brand -->
-    <a href="/" class="flex items-center gap-3 group shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#06B6D4] rounded-lg">
-      <div class="relative w-9 h-9 rounded-xl bg-gradient-to-br from-[#F97316] via-[#EF4444] to-[#06B6D4] p-[1px] shadow-lg shadow-orange-500/20 group-hover:shadow-cyan-500/30 transition-all duration-300">
-        <div class="w-full h-full bg-void rounded-[11px] flex items-center justify-center">
-          <!-- Anime Vault Crest: Sharingan + Strawhat Motif in SVG -->
-          <svg class="w-5 h-5 text-[#F97316] group-hover:text-[#06B6D4] transition-colors duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <!-- Outer Ring / Strawhat Brim -->
-            <ellipse cx="12" cy="14" rx="9" ry="4" stroke="currentColor" stroke-width="1.5" />
-            <!-- Sharingan / Crown Top -->
-            <path d="M7 14c0-3.5 2.2-6.5 5-6.5s5 3 5 6.5" stroke="currentColor" stroke-width="1.8" />
-            <circle cx="12" cy="11" r="1.5" fill="currentColor" />
-            <!-- Chakra Sparkle -->
-            <path d="M12 3v2M12 19v2" stroke="#06B6D4" stroke-width="1.5" />
-          </svg>
+    <a href="/" class="flex items-center gap-2 group shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#FF5722] rounded-lg">
+      <div class="relative w-8 h-8 rounded bg-gradient-to-br from-[#22D3EE] to-[#FF5722] p-[1px] group-hover:glow-orange transition-all">
+        <div class="w-full h-full bg-void rounded flex items-center justify-center">
+          <span class="font-mono font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#22D3EE] to-[#FF5722]">Y</span>
         </div>
       </div>
-      
-      <div class="flex flex-col">
-        <span class="font-mono text-lg font-bold tracking-tight text-main group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-main group-hover:to-[#06B6D4] transition-all">
-          Anime<span class="text-[#F97316]">Vault</span>
-        </span>
-        <span class="text-[9px] font-mono tracking-widest text-muted uppercase -mt-1 flex items-center gap-1">
-          <span class="inline-block w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-          Direct Repacks
-        </span>
-      </div>
+      <span class="font-mono font-bold text-lg tracking-tight hidden sm:block group-hover:text-[#FF5722] transition-colors">
+        Yonko<span class="text-[#22D3EE]">Stash</span>
+      </span>
+    </a>
+
+    <!-- Stats Pill (Hidden on mobile) -->
+    <a href="#" class="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full bg-mist border border-main hover:border-[#FF5722] transition-all glow-orange group">
+      <span class="text-xs font-medium text-muted group-hover:text-[#F4F4F5] transition-colors flex items-center gap-1.5">
+        <span class="inline-block w-1.5 h-1.5 rounded-full bg-[#FF5722] animate-pulse"></span>
+        Direct Repacks
+      </span>
     </a>
 
     <!-- Central Search Bar (Command-K Style) -->
     <div class="flex-1 max-w-md mx-4 hidden md:block relative">
       <div class="relative group z-50">
-        <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-muted group-focus-within:text-[#06B6D4] transition-colors">
+        <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-muted group-focus-within:text-[#FF5722] transition-colors">
           <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
@@ -55,7 +47,7 @@ const searchData = games.map(game => ({
           id="global-search-input"
           type="text"
           placeholder="Search 2,400+ repacks, shinobi jutsu & games..."
-          class="w-full pl-10 pr-16 py-2 bg-mist border border-main hover:border-hover focus:border-[#06B6D4] rounded-lg text-sm text-main placeholder:text-muted/60 focus:outline-none focus:ring-1 focus:ring-[#06B6D4] transition-all"
+          class="w-full pl-10 pr-16 py-2 bg-mist border border-main hover:border-hover focus:border-[#FF5722] rounded-lg text-sm text-main placeholder:text-muted/60 focus:outline-none focus:ring-1 focus:ring-[#FF5722] transition-all"
         />
         <div class="absolute inset-y-0 right-0 pr-2.5 flex items-center pointer-events-none">
           <kbd class="px-1.5 py-0.5 text-[10px] font-mono text-muted bg-void border border-main rounded shadow-sm">
@@ -85,29 +77,33 @@ const searchData = games.map(game => ({
       <div class="hidden lg:flex items-center gap-1 text-sm font-medium">
         <a 
           href="#bounties" 
-          class="px-3 py-1.5 rounded-md text-main hover:text-[#06B6D4] hover:bg-mist transition-colors"
+          data-navbar-filter="all"
+          class="navbar-filter-link px-3 py-1.5 rounded-md text-main hover:text-[#22D3EE] hover:bg-mist transition-colors"
         >
           All Games
         </a>
         <a 
           href="#shinobi-wars" 
-          class="px-3 py-1.5 rounded-md text-muted hover:text-[#06B6D4] hover:bg-mist transition-colors flex items-center gap-1.5"
+          data-navbar-filter="shinobi"
+          class="navbar-filter-link px-3 py-1.5 rounded-md text-muted hover:text-[#22D3EE] hover:bg-mist transition-colors flex items-center gap-1.5"
         >
-          <span class="w-1.5 h-1.5 rounded-full bg-[#F97316]"></span>
+          <span class="w-1.5 h-1.5 rounded-full bg-[#FF5722]"></span>
           Shinobi Wars
         </a>
         <a 
           href="#grand-fleet" 
-          class="px-3 py-1.5 rounded-md text-muted hover:text-[#06B6D4] hover:bg-mist transition-colors flex items-center gap-1.5"
+          data-navbar-filter="fleet"
+          class="navbar-filter-link px-3 py-1.5 rounded-md text-muted hover:text-[#22D3EE] hover:bg-mist transition-colors flex items-center gap-1.5"
         >
-          <span class="w-1.5 h-1.5 rounded-full bg-[#06B6D4]"></span>
+          <span class="w-1.5 h-1.5 rounded-full bg-[#FF5722]"></span>
           Grand Fleet
         </a>
         <a 
           href="#highest-bounties" 
-          class="px-3 py-1.5 rounded-md text-muted hover:text-[#EF4444] hover:bg-mist transition-colors flex items-center gap-1.5"
+          data-navbar-filter="hot"
+          class="navbar-filter-link px-3 py-1.5 rounded-md text-muted hover:text-[#FF5722] hover:bg-mist transition-colors flex items-center gap-1.5"
         >
-          <span class="w-1.5 h-1.5 rounded-full bg-[#EF4444]"></span>
+          <span class="w-1.5 h-1.5 rounded-full bg-[#FF5722]"></span>
           Top Bounties
         </a>
       </div>
@@ -115,7 +111,7 @@ const searchData = games.map(game => ({
       <!-- Quick Action / Status Badge -->
       <div class="flex items-center gap-3">
         <!-- Theme Toggle -->
-        <button id="theme-toggle" class="p-2 rounded-full hover:bg-mist transition-colors text-muted hover:text-main focus:outline-none focus-visible:ring-2 focus-visible:ring-[#06B6D4]" aria-label="Toggle Theme">
+        <button id="theme-toggle" class="p-2 rounded-full hover:bg-mist transition-colors text-muted hover:text-main focus:outline-none focus-visible:ring-2 focus-visible:ring-[#FF5722]" aria-label="Toggle Theme">
           <svg id="theme-toggle-light-icon" class="hidden w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
           </svg>
@@ -131,7 +127,7 @@ const searchData = games.map(game => ({
 
         <a 
           href="#bounties" 
-          class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-mono font-semibold text-white bg-gradient-to-r from-[#F97316] to-[#EF4444] hover:opacity-90 transition-opacity shadow-md shadow-orange-500/10 focus:outline-none focus:ring-2 focus:ring-[#F97316]"
+          class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-mono font-semibold text-white bg-[#FF5722] hover:bg-[#F4511E] transition-colors shadow-md shadow-orange-500/10 focus:outline-none focus:ring-2 focus:ring-[#FF5722]"
         >
           <span class="hidden sm:inline">Vault Access</span>
           <span class="sm:hidden">Vault</span>
@@ -154,11 +150,11 @@ const searchData = games.map(game => ({
   <!-- Mobile Menu Dropdown -->
   <div id="mobile-menu" class="hidden absolute top-16 left-0 w-full bg-void/95 backdrop-blur-xl border-b border-main flex-col p-4 gap-2 shadow-2xl lg:hidden z-40 transition-all duration-300 origin-top">
     <a href="#bounties" class="mobile-link px-4 py-3 rounded-lg text-main font-medium hover:bg-mist transition-colors border border-transparent hover:border-main">All Games</a>
-    <a href="#shinobi-wars" class="mobile-link px-4 py-3 rounded-lg text-muted hover:text-[#06B6D4] hover:bg-mist transition-colors flex items-center gap-3 border border-transparent hover:border-main">
-      <span class="w-2 h-2 rounded-full bg-[#F97316] shadow-[0_0_8px_#F97316]"></span> Shinobi Wars
+    <a href="#shinobi-wars" class="mobile-link px-4 py-3 rounded-lg text-muted hover:text-[#FF5722] hover:bg-mist transition-colors flex items-center gap-3 border border-transparent hover:border-main">
+      <span class="w-2 h-2 rounded-full bg-[#22D3EE] shadow-[0_0_8px_#22D3EE]"></span> Shinobi Wars
     </a>
-    <a href="#grand-fleet" class="mobile-link px-4 py-3 rounded-lg text-muted hover:text-[#06B6D4] hover:bg-mist transition-colors flex items-center gap-3 border border-transparent hover:border-main">
-      <span class="w-2 h-2 rounded-full bg-[#06B6D4] shadow-[0_0_8px_#06B6D4]"></span> Grand Fleet
+    <a href="#grand-fleet" class="mobile-link px-4 py-3 rounded-lg text-muted hover:text-[#FF5722] hover:bg-mist transition-colors flex items-center gap-3 border border-transparent hover:border-main">
+      <span class="w-2 h-2 rounded-full bg-[#FF5722] shadow-[0_0_8px_#FF5722]"></span> Grand Fleet
     </a>
     <a href="#highest-bounties" class="mobile-link px-4 py-3 rounded-lg text-muted hover:text-[#EF4444] hover:bg-mist transition-colors flex items-center gap-3 border border-transparent hover:border-main">
       <span class="w-2 h-2 rounded-full bg-[#EF4444] shadow-[0_0_8px_#EF4444]"></span> Top Bounties
@@ -190,11 +186,10 @@ const searchData = games.map(game => ({
     updateIcons();
   });
 
-  // Mobile Menu Logic
+  // Mobile Menu Toggle
   const mobileMenuBtn = document.getElementById('mobile-menu-btn');
   const mobileMenu = document.getElementById('mobile-menu');
-  const menuIconPath = document.getElementById('menu-icon-path');
-  const mobileLinks = document.querySelectorAll('.mobile-link');
+  const mobileLinks = document.querySelectorAll('.mobile-nav-link');
   let isMenuOpen = false;
 
   function toggleMenu() {
@@ -202,6 +197,7 @@ const searchData = games.map(game => ({
     if (isMenuOpen) {
       mobileMenu?.classList.remove('hidden');
       mobileMenu?.classList.add('flex');
+      const menuIconPath = document.getElementById('menu-icon-path');
       menuIconPath?.setAttribute('d', 'M6 18L18 6M6 6l12 12'); // X icon
     } else {
       mobileMenu?.classList.add('hidden');
@@ -246,9 +242,9 @@ const searchData = games.map(game => ({
   }
 
   function getAccentColor(color: string) {
-    if (color === 'orange') return 'text-[#F97316] bg-[#F97316]/10';
+    if (color === 'orange') return 'text-[#22D3EE] bg-[#22D3EE]/10';
     if (color === 'red') return 'text-[#EF4444] bg-[#EF4444]/10';
-    if (color === 'cyan') return 'text-[#06B6D4] bg-[#06B6D4]/10';
+    if (color === 'cyan') return 'text-[#FF5722] bg-[#FF5722]/10';
     return 'text-white bg-white/10';
   }
 

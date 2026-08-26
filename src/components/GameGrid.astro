@@ -6,9 +6,9 @@ import { games } from '../data/games';
 const categories = [
   { id: "all", label: "All Bounties", count: games.length.toString() },
   { id: "hot", label: "🔥 Highest Bounties", count: games.filter(g => g.isHot).length.toString() },
-  { id: "shinobi", label: "⚔️ Shinobi Wars", count: games.filter(g => g.genres.some(gen => gen.toLowerCase().includes("shinobi"))).length.toString() },
-  { id: "fleet", label: "🏴‍☠️ Grand Fleet", count: games.filter(g => g.genres.some(gen => gen.toLowerCase().includes("grand fleet"))).length.toString() },
-  { id: "rpg", label: "📜 Jutsu / RPG", count: games.filter(g => g.genres.some(gen => gen.toLowerCase().includes("rpg"))).length.toString() },
+  { id: "shinobi", label: "⚔️ Shinobi Wars", count: games.filter(g => g.isShinobiWars || g.genres.some(gen => gen.toLowerCase().includes("shinobi"))).length.toString() },
+  { id: "fleet", label: "🏴‍☠️ Grand Fleet", count: games.filter(g => g.isGrandFleet || g.genres.some(gen => gen.toLowerCase().includes("grand fleet"))).length.toString() },
+  { id: "rpg", label: "📜 Jutsu / RPG", count: games.filter(g => g.isJutsuRPG || g.genres.some(gen => gen.toLowerCase().includes("rpg"))).length.toString() },
 ];
 ---
 
@@ -17,8 +17,8 @@ const categories = [
   <!-- Section Header -->
   <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8 pb-4 border-b border-main">
     <div>
-      <div class="inline-flex items-center gap-2 text-xs font-mono font-semibold uppercase tracking-widest text-[#F97316] mb-1">
-        <span class="w-2 h-2 rounded-full bg-[#F97316]"></span>
+      <div class="inline-flex items-center gap-2 text-xs font-mono font-semibold uppercase tracking-widest text-[#22D3EE] mb-1">
+        <span class="w-2 h-2 rounded-full bg-[#22D3EE]"></span>
         Grand Line Armory
       </div>
       <h2 class="text-2xl sm:text-3xl font-mono font-bold text-white tracking-tight">
@@ -33,7 +33,7 @@ const categories = [
           id="grid-search-input"
           type="text" 
           placeholder="Filter game library..." 
-          class="w-full pl-9 pr-4 py-1.5 text-xs bg-mist border border-main focus:border-[#06B6D4] rounded-lg text-white placeholder-[#A1A1AA] focus:outline-none focus:ring-1 focus:ring-[#06B6D4] transition-all font-mono"
+          class="w-full pl-9 pr-4 py-1.5 text-xs bg-mist border border-main focus:border-[#FF5722] rounded-lg text-white placeholder-[#A1A1AA] focus:outline-none focus:ring-1 focus:ring-[#FF5722] transition-all font-mono"
         />
         <svg class="w-4 h-4 text-muted absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -50,7 +50,7 @@ const categories = [
         data-filter-category={category.id}
         class={`category-tab-btn px-4 py-2 rounded-lg text-xs font-mono font-medium whitespace-nowrap transition-all duration-200 flex items-center gap-2 border cursor-pointer ${
           index === 0
-            ? "active-tab bg-gradient-to-r from-[#F97316] to-[#EF4444] text-white border-transparent shadow-md shadow-orange-500/15"
+            ? "active-tab bg-[#FF5722] text-white border-transparent shadow-md shadow-orange-500/15"
             : "bg-mist text-muted hover:text-main border-main hover:border-hover"
         }`}
       >
@@ -73,6 +73,9 @@ const categories = [
         rating={game.rating}
         downloads={game.downloads}
         isHot={game.isHot}
+        isShinobiWars={game.isShinobiWars}
+        isGrandFleet={game.isGrandFleet}
+        isJutsuRPG={game.isJutsuRPG}
         version={game.version}
         bounty={game.bounty}
         accentColor={game.accentColor}
@@ -92,7 +95,7 @@ const categories = [
     </p>
     <button 
       id="reset-search-btn"
-      class="px-4 py-2 rounded-lg text-xs font-mono font-medium text-white bg-mist border border-main hover:border-[#F97316] transition-colors"
+      class="px-4 py-2 rounded-lg text-xs font-mono font-medium text-white bg-mist border border-main hover:border-[#22D3EE] transition-colors"
     >
       Clear Search & Show All
     </button>
@@ -102,7 +105,7 @@ const categories = [
   <div class="mt-12 p-8 rounded-2xl bg-gradient-to-b from-[#14141F] to-[#0A0A0F] border border-main text-center relative overflow-hidden">
     <div class="absolute inset-0 bg-grid-pattern opacity-30"></div>
     <div class="relative z-10 max-w-xl mx-auto flex flex-col items-center gap-4">
-      <div class="w-12 h-12 rounded-2xl bg-[#F97316]/10 border border-[#F97316]/30 flex items-center justify-center text-[#F97316] text-xl font-bold font-mono">
+      <div class="w-12 h-12 rounded-2xl bg-[#22D3EE]/10 border border-[#22D3EE]/30 flex items-center justify-center text-[#22D3EE] text-xl font-bold font-mono">
         ☠️
       </div>
       <h3 class="text-xl font-mono font-bold text-white">Looking for a Specific Bounty?</h3>
@@ -112,7 +115,7 @@ const categories = [
       <div class="flex flex-wrap justify-center gap-3 pt-2">
         <a 
           href="#request" 
-          class="px-5 py-2.5 rounded-lg text-xs font-mono font-semibold text-white bg-[#F97316] hover:bg-[#ea580c] transition-colors"
+          class="px-5 py-2.5 rounded-lg text-xs font-mono font-semibold text-white bg-[#22D3EE] hover:bg-[#ea580c] transition-colors"
         >
           Request Game
         </a>
@@ -120,7 +123,7 @@ const categories = [
           href="https://discord.com" 
           target="_blank"
           rel="noopener noreferrer"
-          class="px-5 py-2.5 rounded-lg text-xs font-mono font-semibold text-main bg-mist border border-main hover:border-[#06B6D4] transition-colors"
+          class="px-5 py-2.5 rounded-lg text-xs font-mono font-semibold text-main bg-mist border border-main hover:border-[#FF5722] transition-colors"
         >
           Join Shinobi Discord
         </a>
@@ -152,6 +155,9 @@ const categories = [
         const title = card.getAttribute('data-title') || '';
         const genres = card.getAttribute('data-genres') || '';
         const isHot = card.getAttribute('data-ishot') === 'true';
+        const isShinobiWars = card.getAttribute('data-isshinobi') === 'true';
+        const isGrandFleet = card.getAttribute('data-isfleet') === 'true';
+        const isJutsuRPG = card.getAttribute('data-isrpg') === 'true';
 
         let matchesCategory = false;
         if (currentCategory === 'all') {
@@ -159,11 +165,11 @@ const categories = [
         } else if (currentCategory === 'hot') {
           matchesCategory = isHot;
         } else if (currentCategory === 'shinobi') {
-          matchesCategory = genres.includes('shinobi');
+          matchesCategory = isShinobiWars || genres.includes('shinobi');
         } else if (currentCategory === 'fleet') {
-          matchesCategory = genres.includes('grand fleet');
+          matchesCategory = isGrandFleet || genres.includes('grand fleet');
         } else if (currentCategory === 'rpg') {
-          matchesCategory = genres.includes('rpg') || genres.includes('jutsu');
+          matchesCategory = isJutsuRPG || genres.includes('rpg') || genres.includes('jutsu');
         }
 
         const matchesQuery = !query || title.includes(query) || genres.includes(query);
@@ -189,7 +195,7 @@ const categories = [
       }
     }
 
-    // Category button clicks
+    // Category button clicks (Main Grid)
     categoryBtns.forEach((btn) => {
       btn.addEventListener('click', () => {
         const cat = btn.getAttribute('data-filter-category') || 'all';
@@ -201,11 +207,33 @@ const categories = [
           if (badge) badge.className = "badge-count px-1.5 py-0.2 rounded text-[10px] bg-white/[0.05] text-muted";
         });
 
-        btn.className = "category-tab-btn active-tab px-4 py-2 rounded-lg text-xs font-mono font-medium whitespace-nowrap transition-all duration-200 flex items-center gap-2 border cursor-pointer bg-gradient-to-r from-[#F97316] to-[#EF4444] text-white border-transparent shadow-md shadow-orange-500/15";
-        const activeBadge = btn.querySelector('.badge-count');
-        if (activeBadge) activeBadge.className = "badge-count px-1.5 py-0.2 rounded text-[10px] bg-black/20 text-white";
+        // The button we just clicked might not be in the DOM if we clicked a navbar link instead.
+        // We need to highlight the correct pill in the grid:
+        const matchingBtn = document.querySelector(`.category-tab-btn[data-filter-category="${cat}"]`);
+        if (matchingBtn) {
+          matchingBtn.className = "category-tab-btn active-tab px-4 py-2 rounded-lg text-xs font-mono font-medium whitespace-nowrap transition-all duration-200 flex items-center gap-2 border cursor-pointer bg-[#FF5722] text-white border-transparent shadow-md shadow-orange-500/15";
+          const activeBadge = matchingBtn.querySelector('.badge-count');
+          if (activeBadge) activeBadge.className = "badge-count px-1.5 py-0.2 rounded text-[10px] bg-black/20 text-white";
+        }
 
         filterCards();
+      });
+    });
+
+    // Navbar Tab Links integration
+    const navbarTabs = document.querySelectorAll('.navbar-filter-link');
+    navbarTabs.forEach(link => {
+      link.addEventListener('click', (e) => {
+        const cat = link.getAttribute('data-navbar-filter');
+        if (cat) {
+          // If we are on the homepage (where GameGrid is)
+          if (document.getElementById('bounties')) {
+            const matchingGridBtn = document.querySelector(`.category-tab-btn[data-filter-category="${cat}"]`) as HTMLElement;
+            if (matchingGridBtn) {
+              matchingGridBtn.click();
+            }
+          }
+        }
       });
     });
 

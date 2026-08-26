@@ -74,11 +74,10 @@ const gameplayEmbedUrl = getYouTubeEmbedUrl(game.gameplayVideo);
       </div>
 
       <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-10">
-        <!-- Breadcrumb -->
         <nav class="flex items-center gap-1.5 text-[11px] font-mono text-muted mb-6" aria-label="Breadcrumb">
-          <a href="/" class="hover:text-[#06B6D4] transition-colors">Home</a>
+          <a href="/" class="hover:text-[#FF5722] transition-colors">Home</a>
           <svg class="w-3 h-3 text-muted/50" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
-          <a href="/#bounties" class="hover:text-[#06B6D4] transition-colors">Bounties</a>
+          <a href="/#bounties" class="hover:text-[#FF5722] transition-colors">Bounties</a>
           <svg class="w-3 h-3 text-muted/50" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
           <span class="text-main truncate max-w-[200px]">{game.title}</span>
         </nav>
@@ -122,17 +121,17 @@ const gameplayEmbedUrl = getYouTubeEmbedUrl(game.gameplayVideo);
               </div>
               <div class="w-px h-3.5 bg-white/10"></div>
               <div class="flex items-center gap-1.5 text-muted">
-                <svg class="w-3.5 h-3.5 text-[#06B6D4]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10" /></svg>
+                <svg class="w-3.5 h-3.5 text-[#FF5722]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10" /></svg>
                 <span class="text-white font-semibold">{game.downloads}</span> downloads
               </div>
               <div class="w-px h-3.5 bg-white/10"></div>
               <div class="flex items-center gap-1.5 text-muted">
-                <svg class="w-3.5 h-3.5 text-[#F97316]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 7v10c0 2 1 3 3 3h10c2 0 3-1 3-3V7c0-2-1-3-3-3H7c-2 0-3 1-3 3z" /></svg>
+                <svg class="w-3.5 h-3.5 text-[#22D3EE]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 7v10c0 2 1 3 3 3h10c2 0 3-1 3-3V7c0-2-1-3-3-3H7c-2 0-3 1-3 3z" /></svg>
                 <span class="text-white font-semibold">{game.size}</span>
               </div>
               <div class="w-px h-3.5 bg-white/10"></div>
               <div class="text-muted">
-                Bounty: <span class="text-[#F97316] font-bold">{game.bounty}</span>
+                Bounty: <span class="text-[#22D3EE] font-bold">{game.bounty}</span>
               </div>
             </div>
 
@@ -149,16 +148,16 @@ const gameplayEmbedUrl = getYouTubeEmbedUrl(game.gameplayVideo);
             <div class="flex flex-wrap gap-3">
               <a 
                 href="#download-portal" 
-                class="inline-flex items-center gap-2.5 px-6 py-3 rounded-xl font-mono font-bold text-sm text-white bg-gradient-to-r from-[#F97316] to-[#EF4444] hover:from-[#ea580c] hover:to-[#dc2626] shadow-xl shadow-orange-500/25 transition-all transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-[#F97316]"
+                class="inline-flex items-center gap-2.5 px-6 py-3 rounded-xl font-mono font-bold text-sm text-white bg-[#22D3EE] hover:bg-[#F4511E] shadow-xl shadow-cyan-500/25 hover:shadow-orange-400/40 hover:border-[#FF5722] border border-transparent transition-all transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-[#FF5722]"
               >
                 <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
                 Download Now — {game.size}
               </a>
               <a 
                 href="#screenshots" 
-                class="inline-flex items-center gap-2 px-5 py-3 rounded-xl font-mono text-sm text-main bg-white/[0.05] hover:bg-white/[0.1] border border-main hover:border-hover transition-all"
+                class="inline-flex items-center gap-2 px-5 py-3 rounded-xl font-mono text-sm text-main bg-white/[0.05] hover:bg-white/[0.1] border border-main hover:border-hover transition-all focus:outline-none focus:ring-2 focus:ring-[#FF5722]"
               >
-                <svg class="w-4 h-4 text-[#06B6D4]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                <svg class="w-4 h-4 text-[#FF5722]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
                 View Screenshots
               </a>
             </div>
@@ -192,7 +191,7 @@ const gameplayEmbedUrl = getYouTubeEmbedUrl(game.gameplayVideo);
           <section id="screenshots" class="rounded-xl bg-mist border border-main overflow-hidden scroll-mt-24">
             <div class="px-5 py-3.5 border-b border-main flex items-center justify-between">
               <h2 class="text-sm font-mono font-bold text-white flex items-center gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-[#06B6D4]"></span>
+                <span class="w-1.5 h-1.5 rounded-full bg-[#FF5722]"></span>
                 Screenshots & Media
               </h2>
               <span class="text-[10px] font-mono text-muted">Click to preview</span>
@@ -214,14 +213,14 @@ const gameplayEmbedUrl = getYouTubeEmbedUrl(game.gameplayVideo);
                 </div>
 
                 <!-- Main Preview Prev Button -->
-                <button id="main-prev-btn" class="absolute left-2 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/50 text-white hover:bg-black/80 hover:text-[#06B6D4] transition-all z-10 border border-white/10 opacity-0 group-hover:opacity-100 hidden sm:block" aria-label="Previous image">
+                <button id="main-prev-btn" class="absolute left-2 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/50 text-white hover:bg-black/80 hover:text-[#FF5722] transition-all z-10 border border-white/10 opacity-0 group-hover:opacity-100 hidden sm:block" aria-label="Previous image">
                   <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
                   </svg>
                 </button>
 
                 <!-- Main Preview Next Button -->
-                <button id="main-next-btn" class="absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/50 text-white hover:bg-black/80 hover:text-[#06B6D4] transition-all z-10 border border-white/10 opacity-0 group-hover:opacity-100 hidden sm:block" aria-label="Next image">
+                <button id="main-next-btn" class="absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/50 text-white hover:bg-black/80 hover:text-[#FF5722] transition-all z-10 border border-white/10 opacity-0 group-hover:opacity-100 hidden sm:block" aria-label="Next image">
                   <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
                   </svg>
@@ -233,7 +232,7 @@ const gameplayEmbedUrl = getYouTubeEmbedUrl(game.gameplayVideo);
                 {game.screenshots.map((shot, idx) => (
                   <button 
                     type="button" 
-                    class={`screenshot-thumb relative aspect-video rounded-md overflow-hidden border-2 transition-all cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#06B6D4] ${idx === 0 ? 'border-[#06B6D4]' : 'border-main hover:border-hover'}`}
+                    class={`screenshot-thumb relative aspect-video rounded-md overflow-hidden border-2 transition-all cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#FF5722] ${idx === 0 ? 'border-[#FF5722]' : 'border-main hover:border-hover'}`}
                     data-src={shot}
                   >
                     <img src={shot} alt={`Screenshot ${idx + 1}`} class="w-full h-full object-cover" loading="lazy" />
@@ -273,7 +272,7 @@ const gameplayEmbedUrl = getYouTubeEmbedUrl(game.gameplayVideo);
           <section class="rounded-xl bg-mist border border-main overflow-hidden">
             <div class="px-5 py-3.5 border-b border-main">
               <h2 class="text-sm font-mono font-bold text-white flex items-center gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-[#F97316]"></span>
+                <span class="w-1.5 h-1.5 rounded-full bg-[#22D3EE]"></span>
                 About This Game
               </h2>
             </div>
@@ -312,8 +311,8 @@ const gameplayEmbedUrl = getYouTubeEmbedUrl(game.gameplayVideo);
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <!-- Minimum -->
                 <div class="rounded-lg bg-void border border-main overflow-hidden">
-                  <div class="px-4 py-2.5 border-b border-main bg-[#F97316]/5">
-                    <span class="text-[10px] font-mono font-bold text-[#F97316] uppercase tracking-wider">Minimum</span>
+                  <div class="px-4 py-2.5 border-b border-main bg-[#22D3EE]/5">
+                    <span class="text-[10px] font-mono font-bold text-[#22D3EE] uppercase tracking-wider">Minimum</span>
                   </div>
                   <div class="p-4 space-y-3 text-xs font-mono">
                     <div><span class="text-muted block text-[10px] uppercase tracking-wider mb-0.5">OS</span><span class="text-white">{game.systemRequirements.os}</span></div>
@@ -326,8 +325,8 @@ const gameplayEmbedUrl = getYouTubeEmbedUrl(game.gameplayVideo);
 
                 <!-- Recommended -->
                 <div class="rounded-lg bg-void border border-main overflow-hidden">
-                  <div class="px-4 py-2.5 border-b border-main bg-[#06B6D4]/5">
-                    <span class="text-[10px] font-mono font-bold text-[#06B6D4] uppercase tracking-wider">Recommended (60 FPS Ultra)</span>
+                  <div class="px-4 py-2.5 border-b border-main bg-[#FF5722]/5">
+                    <span class="text-[10px] font-mono font-bold text-[#FF5722] uppercase tracking-wider">Recommended (60 FPS Ultra)</span>
                   </div>
                   <div class="p-4 space-y-3 text-xs font-mono">
                     <div><span class="text-muted block text-[10px] uppercase tracking-wider mb-0.5">OS</span><span class="text-white">Windows 11 (64-bit)</span></div>
@@ -350,8 +349,8 @@ const gameplayEmbedUrl = getYouTubeEmbedUrl(game.gameplayVideo);
           <div class="lg:sticky lg:top-20">
 
             <!-- Sidebar Download -->
-            <div class="rounded-xl bg-mist border border-[#F97316]/30 overflow-hidden mb-5 shadow-lg shadow-orange-500/5">
-              <div class="p-5 bg-gradient-to-br from-[#F97316]/10 via-transparent to-transparent">
+            <div class="rounded-xl bg-mist border border-[#22D3EE]/30 overflow-hidden mb-5 shadow-lg shadow-cyan-500/5">
+              <div class="p-5 bg-gradient-to-br from-[#22D3EE]/10 via-transparent to-transparent">
                 <div class="flex items-center gap-2 mb-3">
                   <div class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></div>
                   <span class="text-[10px] font-mono font-bold text-emerald-400 uppercase tracking-wider">Ready to Download</span>
@@ -365,7 +364,7 @@ const gameplayEmbedUrl = getYouTubeEmbedUrl(game.gameplayVideo);
                   target="_blank"
                   rel="noopener noreferrer"
                   download
-                  class="w-full inline-flex items-center justify-center gap-2.5 px-5 py-3 rounded-lg font-mono font-bold text-sm text-white bg-gradient-to-r from-[#F97316] to-[#EF4444] hover:from-[#ea580c] hover:to-[#dc2626] shadow-lg shadow-orange-500/25 hover:shadow-orange-500/40 transition-all transform hover:-translate-y-0.5"
+                  class="w-full inline-flex items-center justify-center gap-2.5 px-5 py-3 rounded-lg font-mono font-bold text-sm text-white bg-gradient-to-r from-[#22D3EE] to-[#EF4444] hover:from-[#ea580c] hover:to-[#dc2626] shadow-lg shadow-cyan-500/25 hover:shadow-cyan-500/40 transition-all transform hover:-translate-y-0.5"
                 >
                   <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
                   Download via UploadHaven
@@ -399,7 +398,7 @@ const gameplayEmbedUrl = getYouTubeEmbedUrl(game.gameplayVideo);
                 </div>
                 <div class="px-4 py-2.5 flex items-center justify-between">
                   <span class="text-[11px] font-mono text-muted">File Size</span>
-                  <span class="text-[11px] font-mono text-[#06B6D4] font-bold">{game.size}</span>
+                  <span class="text-[11px] font-mono text-[#FF5722] font-bold">{game.size}</span>
                 </div>
                 <div class="px-4 py-2.5 flex items-center justify-between">
                   <span class="text-[11px] font-mono text-muted">Downloads</span>
@@ -450,17 +449,17 @@ const gameplayEmbedUrl = getYouTubeEmbedUrl(game.gameplayVideo);
       <!-- ═══════════════════════════════════════════════════════════ -->
       <!--  DOWNLOAD PORTAL (Full-width)                              -->
       <!-- ═══════════════════════════════════════════════════════════ -->
-      <section id="download-portal" class="scroll-mt-24 mt-10 rounded-2xl border border-[#F97316]/30 overflow-hidden relative">
+      <section id="download-portal" class="scroll-mt-24 mt-10 rounded-2xl border border-[#22D3EE]/30 overflow-hidden relative">
         <!-- Ambient Background -->
-        <div class="absolute inset-0 bg-gradient-to-br from-[#F97316]/5 via-[#14141F] to-[#06B6D4]/5 pointer-events-none"></div>
-        <div class="absolute -right-40 -top-40 w-96 h-96 bg-[#F97316]/8 rounded-full blur-[120px] pointer-events-none"></div>
-        <div class="absolute -left-40 -bottom-40 w-96 h-96 bg-[#06B6D4]/8 rounded-full blur-[120px] pointer-events-none"></div>
+        <div class="absolute inset-0 bg-gradient-to-br from-[#22D3EE]/5 via-[#14141F] to-[#FF5722]/5 pointer-events-none"></div>
+        <div class="absolute -right-40 -top-40 w-96 h-96 bg-[#22D3EE]/8 rounded-full blur-[120px] pointer-events-none"></div>
+        <div class="absolute -left-40 -bottom-40 w-96 h-96 bg-[#FF5722]/8 rounded-full blur-[120px] pointer-events-none"></div>
 
         <div class="relative z-10">
           <!-- Header Bar -->
           <div class="px-6 py-4 border-b border-main flex items-center justify-between bg-void/60 backdrop-blur-sm">
             <div class="flex items-center gap-3">
-              <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-[#F97316] to-[#EF4444] flex items-center justify-center shadow-lg shadow-orange-500/20">
+              <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-[#22D3EE] to-[#EF4444] flex items-center justify-center shadow-lg shadow-cyan-500/20">
                 <svg class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
               </div>
               <div>
@@ -492,9 +491,9 @@ const gameplayEmbedUrl = getYouTubeEmbedUrl(game.gameplayVideo);
                     </div>
                     <div class="inline-flex items-center gap-1">
                       <div id="countdown-progress" class="w-32 h-1.5 bg-white/[0.06] rounded-full overflow-hidden">
-                        <div id="countdown-bar" class="h-full bg-gradient-to-r from-[#F97316] to-[#06B6D4] rounded-full transition-all duration-1000 ease-linear" style="width: 0%"></div>
+                        <div id="countdown-bar" class="h-full bg-gradient-to-r from-[#22D3EE] to-[#FF5722] rounded-full transition-all duration-1000 ease-linear" style="width: 0%"></div>
                       </div>
-                      <span id="countdown-timer" class="text-xs font-mono font-bold text-[#06B6D4] tabular-nums w-6 text-right">5s</span>
+                      <span id="countdown-timer" class="text-xs font-mono font-bold text-[#FF5722] tabular-nums w-6 text-right">5s</span>
                     </div>
                   </div>
 
@@ -504,7 +503,7 @@ const gameplayEmbedUrl = getYouTubeEmbedUrl(game.gameplayVideo);
                     target="_blank"
                     rel="noopener noreferrer"
                     download
-                    class="w-full inline-flex items-center justify-center gap-3 px-6 py-3.5 rounded-xl font-mono font-bold text-sm text-white bg-gradient-to-r from-[#F97316] to-[#EF4444] hover:from-[#ea580c] hover:to-[#dc2626] shadow-xl shadow-orange-500/25 hover:shadow-orange-500/40 transition-all transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-[#F97316]"
+                    class="w-full inline-flex items-center justify-center gap-3 px-6 py-3.5 rounded-xl font-mono font-bold text-sm text-white bg-gradient-to-r from-[#22D3EE] to-[#EF4444] hover:from-[#ea580c] hover:to-[#dc2626] shadow-xl shadow-cyan-500/25 hover:shadow-cyan-500/40 transition-all transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-[#22D3EE]"
                   >
                     <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
                     Start Download ({game.size})
@@ -526,16 +525,16 @@ const gameplayEmbedUrl = getYouTubeEmbedUrl(game.gameplayVideo);
                         href={mirror.url} 
                         target="_blank" 
                         rel="noopener noreferrer"
-                        class="flex items-center justify-between p-3 rounded-lg bg-void/80 border border-white/[0.04] hover:border-[#06B6D4]/40 transition-all group"
+                        class="flex items-center justify-between p-3 rounded-lg bg-void/80 border border-white/[0.04] hover:border-[#FF5722]/40 transition-all group"
                       >
                         <div class="flex items-center gap-2.5">
                           <div class="w-1.5 h-1.5 rounded-full bg-emerald-400"></div>
                           <div>
-                            <div class="text-[11px] font-mono font-semibold text-white group-hover:text-[#06B6D4] transition-colors">{mirror.name}</div>
+                            <div class="text-[11px] font-mono font-semibold text-white group-hover:text-[#FF5722] transition-colors">{mirror.name}</div>
                             <div class="text-[9px] text-muted font-mono">{mirror.type} • {mirror.speed}</div>
                           </div>
                         </div>
-                        <svg class="w-3.5 h-3.5 text-muted group-hover:text-[#06B6D4] transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+                        <svg class="w-3.5 h-3.5 text-muted group-hover:text-[#FF5722] transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
                       </a>
                     ))}
                   </div>
@@ -551,15 +550,15 @@ const gameplayEmbedUrl = getYouTubeEmbedUrl(game.gameplayVideo);
 
                 <div class="space-y-3">
                   <div class="flex gap-3 p-3.5 rounded-lg bg-void border border-white/[0.04]">
-                    <div class="w-6 h-6 rounded-md bg-[#F97316]/15 text-[#F97316] flex items-center justify-center text-[10px] font-mono font-bold shrink-0">1</div>
+                    <div class="w-6 h-6 rounded-md bg-[#22D3EE]/15 text-[#22D3EE] flex items-center justify-center text-[10px] font-mono font-bold shrink-0">1</div>
                     <div>
                       <div class="text-xs font-mono font-semibold text-white mb-0.5">Download the Archive</div>
-                      <div class="text-[11px] text-muted font-sans">Click the download button above. Save the <code class="text-[#06B6D4] bg-white/[0.04] px-1 rounded text-[10px]">.zip</code> or <code class="text-[#06B6D4] bg-white/[0.04] px-1 rounded text-[10px]">.rar</code> file to your PC.</div>
+                      <div class="text-[11px] text-muted font-sans">Click the download button above. Save the <code class="text-[#FF5722] bg-white/[0.04] px-1 rounded text-[10px]">.zip</code> or <code class="text-[#FF5722] bg-white/[0.04] px-1 rounded text-[10px]">.rar</code> file to your PC.</div>
                     </div>
                   </div>
 
                   <div class="flex gap-3 p-3.5 rounded-lg bg-void border border-white/[0.04]">
-                    <div class="w-6 h-6 rounded-md bg-[#06B6D4]/15 text-[#06B6D4] flex items-center justify-center text-[10px] font-mono font-bold shrink-0">2</div>
+                    <div class="w-6 h-6 rounded-md bg-[#FF5722]/15 text-[#FF5722] flex items-center justify-center text-[10px] font-mono font-bold shrink-0">2</div>
                     <div>
                       <div class="text-xs font-mono font-semibold text-white mb-0.5">Extract the Files</div>
                       <div class="text-[11px] text-muted font-sans">Use <strong class="text-white">7-Zip</strong> or <strong class="text-white">WinRAR</strong> to extract the archive to a clean directory.</div>
@@ -570,7 +569,7 @@ const gameplayEmbedUrl = getYouTubeEmbedUrl(game.gameplayVideo);
                     <div class="w-6 h-6 rounded-md bg-[#EF4444]/15 text-[#EF4444] flex items-center justify-center text-[10px] font-mono font-bold shrink-0">3</div>
                     <div>
                       <div class="text-xs font-mono font-semibold text-white mb-0.5">Run as Administrator</div>
-                      <div class="text-[11px] text-muted font-sans">Right-click <code class="text-[#06B6D4] bg-white/[0.04] px-1 rounded text-[10px]">setup.exe</code> or the game executable → <strong class="text-white">"Run as administrator"</strong>.</div>
+                      <div class="text-[11px] text-muted font-sans">Right-click <code class="text-[#FF5722] bg-white/[0.04] px-1 rounded text-[10px]">setup.exe</code> or the game executable → <strong class="text-white">"Run as administrator"</strong>.</div>
                     </div>
                   </div>
 
@@ -578,7 +577,7 @@ const gameplayEmbedUrl = getYouTubeEmbedUrl(game.gameplayVideo);
                     <div class="w-6 h-6 rounded-md bg-emerald-500/15 text-emerald-400 flex items-center justify-center text-[10px] font-mono font-bold shrink-0">4</div>
                     <div>
                       <div class="text-xs font-mono font-semibold text-white mb-0.5">Play & Enjoy!</div>
-                      <div class="text-[11px] text-muted font-sans">If missing DLLs appear, install redistributables from the <code class="text-[#06B6D4] bg-white/[0.04] px-1 rounded text-[10px]">_Redist</code> folder.</div>
+                      <div class="text-[11px] text-muted font-sans">If missing DLLs appear, install redistributables from the <code class="text-[#FF5722] bg-white/[0.04] px-1 rounded text-[10px]">_Redist</code> folder.</div>
                     </div>
                   </div>
                 </div>
@@ -609,10 +608,10 @@ const gameplayEmbedUrl = getYouTubeEmbedUrl(game.gameplayVideo);
         <section class="mt-12 pt-10 border-t border-main">
           <div class="flex items-center justify-between mb-6">
             <div>
-              <div class="text-[10px] font-mono text-[#F97316] uppercase tracking-widest font-bold mb-0.5">You Might Also Like</div>
+              <div class="text-[10px] font-mono text-[#22D3EE] uppercase tracking-widest font-bold mb-0.5">You Might Also Like</div>
               <h2 class="text-xl font-mono font-bold text-white">Related Bounties</h2>
             </div>
-            <a href="/#bounties" class="text-xs font-mono text-[#06B6D4] hover:underline flex items-center gap-1">
+            <a href="/#bounties" class="text-xs font-mono text-[#FF5722] hover:underline flex items-center gap-1">
               Browse All
               <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
             </a>
@@ -644,21 +643,21 @@ const gameplayEmbedUrl = getYouTubeEmbedUrl(game.gameplayVideo);
   <!-- Fullscreen Lightbox Modal -->
   <dialog id="lightbox-modal" class="bg-transparent m-auto p-0 backdrop:bg-black/90 backdrop:backdrop-blur-sm focus:outline-none w-full max-w-7xl max-h-screen overflow-hidden">
     <div class="relative w-full h-full flex flex-col items-center justify-center p-4 group">
-      <button id="lightbox-close" class="absolute top-4 right-4 sm:top-6 sm:right-8 p-2 rounded-full bg-black/50 text-white hover:bg-black/80 hover:text-[#06B6D4] transition-all z-10 border border-white/10" aria-label="Close Lightbox">
+      <button id="lightbox-close" class="absolute top-4 right-4 sm:top-6 sm:right-8 p-2 rounded-full bg-black/50 text-white hover:bg-black/80 hover:text-[#FF5722] transition-all z-10 border border-white/10" aria-label="Close Lightbox">
         <svg class="w-6 h-6 sm:w-8 sm:h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
         </svg>
       </button>
 
       <!-- Prev Button -->
-      <button id="lightbox-prev" class="absolute left-2 sm:left-6 top-1/2 -translate-y-1/2 p-3 rounded-full bg-black/50 text-white hover:bg-black/80 hover:text-[#06B6D4] transition-all z-10 border border-white/10 hidden sm:opacity-0 group-hover:opacity-100" aria-label="Previous image">
+      <button id="lightbox-prev" class="absolute left-2 sm:left-6 top-1/2 -translate-y-1/2 p-3 rounded-full bg-black/50 text-white hover:bg-black/80 hover:text-[#FF5722] transition-all z-10 border border-white/10 hidden sm:opacity-0 group-hover:opacity-100" aria-label="Previous image">
         <svg class="w-6 h-6 sm:w-8 sm:h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
         </svg>
       </button>
 
       <!-- Next Button -->
-      <button id="lightbox-next" class="absolute right-2 sm:right-6 top-1/2 -translate-y-1/2 p-3 rounded-full bg-black/50 text-white hover:bg-black/80 hover:text-[#06B6D4] transition-all z-10 border border-white/10 hidden sm:opacity-0 group-hover:opacity-100" aria-label="Next image">
+      <button id="lightbox-next" class="absolute right-2 sm:right-6 top-1/2 -translate-y-1/2 p-3 rounded-full bg-black/50 text-white hover:bg-black/80 hover:text-[#FF5722] transition-all z-10 border border-white/10 hidden sm:opacity-0 group-hover:opacity-100" aria-label="Next image">
         <svg class="w-6 h-6 sm:w-8 sm:h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
         </svg>
@@ -700,9 +699,9 @@ const gameplayEmbedUrl = getYouTubeEmbedUrl(game.gameplayVideo);
       thumbs.forEach((t, i) => {
         if (i === index) {
           t.classList.remove('border-main');
-          t.classList.add('border-[#06B6D4]');
+          t.classList.add('border-[#FF5722]');
         } else {
-          t.classList.remove('border-[#06B6D4]');
+          t.classList.remove('border-[#FF5722]');
           t.classList.add('border-main');
         }
       });

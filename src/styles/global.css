@@ -9,16 +9,16 @@
   --color-border-main: var(--border-main);
   --color-border-hover: var(--border-hover);
   
-  --color-kyuubi: #F97316;
+  --color-kyuubi: #22D3EE;
   --color-haki: #EF4444;
-  --color-chakra: #06B6D4;
+  --color-chakra: #FF5722;
   
   --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 }
 
 :root {
-  /* Light Mode */
+  /* Light Mode (Kept for fallback, but styled darker) */
   --bg-void: #F8FAFC;
   --bg-mist: #FFFFFF;
   --bg-mist-light: #F1F5F9;
@@ -30,14 +30,19 @@
 }
 
 .dark {
-  /* Dark Mode */
-  --bg-void: #0A0A0F;
-  --bg-mist: #14141F;
-  --bg-mist-light: #1A1A2A;
-  --text-main: #EDEDED;
-  --text-muted: #A1A1AA;
-  --border-main: rgba(255, 255, 255, 0.08);
-  --border-hover: rgba(255, 255, 255, 0.16);
+  /* Dark Mode - The Chakra Flow (Option 2) */
+  --bg-void: #09090B; /* Zinc 950 */
+  --bg-mist: #18181B; /* Zinc 900 */
+  --bg-mist-light: #27272A; /* Zinc 800 */
+  --text-main: #F4F4F5; /* Zinc 100 */
+  --text-muted: #A1A1AA; /* Zinc 400 */
+  --border-main: rgba(255, 255, 255, 0.10); /* Ultra thin */
+  --border-hover: rgba(255, 255, 255, 0.20);
+  
+  --color-kyuubi: #22D3EE; /* Neon Orange */
+  --color-haki: #FF3333; 
+  --color-chakra: #FF5722; /* Neon Cyan */
+  
   color-scheme: dark;
 }
 
@@ -72,7 +77,7 @@
   border: 1px solid var(--border-main);
 }
 
-.glow-orange {
+.glow-cyan {
   box-shadow: 0 0 25px -5px rgba(249, 115, 22, 0.25);
 }
 
@@ -80,7 +85,7 @@
   box-shadow: 0 0 25px -5px rgba(239, 68, 68, 0.25);
 }
 
-.glow-cyan {
+.glow-orange {
   box-shadow: 0 0 25px -5px rgba(6, 182, 212, 0.25);
 }
 

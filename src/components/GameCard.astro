@@ -9,6 +9,9 @@ interface Props {
   rating?: string;
   downloads?: string;
   isHot?: boolean;
+  isShinobiWars?: boolean;
+  isGrandFleet?: boolean;
+  isJutsuRPG?: boolean;
   version?: string;
   bounty?: string;
   accentColor?: 'orange' | 'red' | 'cyan';
@@ -23,31 +26,37 @@ const {
   rating = "4.9",
   downloads = "12.4K",
   isHot = false,
+  isShinobiWars = false,
+  isGrandFleet = false,
+  isJutsuRPG = false,
   version = "v1.0 Final",
   bounty = "500,000,000 ฿",
   accentColor = isHot ? 'red' : 'orange'
 } = Astro.props;
 
 const glowClasses = {
-  orange: "group-hover:border-[#F97316]/60 group-hover:shadow-[0_0_30px_rgba(249,115,22,0.18)]",
+  orange: "group-hover:border-[#FF5722]/60 group-hover:shadow-[0_0_30px_rgba(34,211,238,0.2)]",
   red: "group-hover:border-[#EF4444]/60 group-hover:shadow-[0_0_30px_rgba(239,68,68,0.2)]",
-  cyan: "group-hover:border-[#06B6D4]/60 group-hover:shadow-[0_0_30px_rgba(6,182,212,0.18)]",
+  cyan: "group-hover:border-[#FF5722]/60 group-hover:shadow-[0_0_30px_rgba(34,211,238,0.2)]",
 }[accentColor];
 
 const accentBadgeColor = {
-  orange: "bg-[#F97316]/15 text-[#F97316] border-[#F97316]/30",
+  orange: "bg-[#22D3EE]/15 text-[#22D3EE] border-[#22D3EE]/30",
   red: "bg-[#EF4444]/15 text-[#EF4444] border-[#EF4444]/30",
-  cyan: "bg-[#06B6D4]/15 text-[#06B6D4] border-[#06B6D4]/30",
+  cyan: "bg-[#FF5722]/15 text-[#FF5722] border-[#FF5722]/30",
 }[accentColor];
 ---
 
 <a 
   href={`/game/${slug}`}
-  class={`group relative flex flex-col rounded-xl bg-mist border border-main overflow-hidden transition-all duration-300 transform hover:-translate-y-1 block text-left focus:outline-none focus:ring-2 focus:ring-[#06B6D4] ${glowClasses}`}
+  class={`group relative flex flex-col rounded-xl bg-mist border border-main overflow-hidden transition-all duration-300 transform hover:-translate-y-1 block text-left focus:outline-none focus:ring-2 focus:ring-[#FF5722] ${glowClasses}`}
   data-game-card
   data-title={title.toLowerCase()}
   data-genres={genres.join(',').toLowerCase()}
   data-ishot={isHot ? "true" : "false"}
+  data-isshinobi={isShinobiWars ? "true" : "false"}
+  data-isfleet={isGrandFleet ? "true" : "false"}
+  data-isrpg={isJutsuRPG ? "true" : "false"}
 >
   
   <!-- Image / Banner Container (16:9 Aspect Ratio) -->
@@ -61,11 +70,11 @@ const accentBadgeColor = {
         class="w-full h-full object-cover grayscale group-hover:grayscale-0 scale-100 group-hover:scale-105 transition-all duration-500 ease-out"
       />
     ) : (
-      <div class="w-full h-full relative flex items-center justify-center bg-gradient-to-br from-[#14141F] via-[#1A1A2A] to-[#0A0A0F]">
+      <div class="w-full h-full relative flex items-center justify-center bg-gradient-to-br from-[#18181B] via-[#27272A] to-[#09090B]">
         <div class="absolute inset-0 bg-grid-pattern opacity-40"></div>
         <div class="relative flex flex-col items-center gap-2 p-4 text-center">
-          <div class="w-10 h-10 rounded-lg bg-white/[0.04] border border-main flex items-center justify-center group-hover:border-[#F97316]/40 transition-colors">
-            <svg class="w-5 h-5 text-muted group-hover:text-[#F97316] transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <div class="w-10 h-10 rounded-lg bg-white/[0.04] border border-main flex items-center justify-center group-hover:border-[#22D3EE]/40 transition-colors">
+            <svg class="w-5 h-5 text-muted group-hover:text-[#22D3EE] transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path stroke-linecap="round" stroke-linejoin="round" d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z" />
             </svg>
           </div>
@@ -89,7 +98,7 @@ const accentBadgeColor = {
 
       <!-- Size Pill Badge -->
       <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-mono font-semibold bg-void/85 backdrop-blur-sm text-main border border-main">
-        <svg class="w-3 h-3 text-[#06B6D4]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <svg class="w-3 h-3 text-[#FF5722]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M4 7v10c0 2 1 3 3 3h10c2 0 3-1 3-3V7c0-2-1-3-3-3H7c-2 0-3 1-3 3z" />
         </svg>
         {size}
@@ -97,9 +106,9 @@ const accentBadgeColor = {
     </div>
 
     <!-- Quick Hover Overlay Action -->
-    <div class="absolute inset-0 bg-gradient-to-t from-[#14141F] via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3 pointer-events-none">
+    <div class="absolute inset-0 bg-gradient-to-t from-[#18181B] via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3 pointer-events-none">
       <span class="inline-flex items-center gap-1.5 text-xs font-mono font-semibold text-white">
-        <span class="w-2 h-2 rounded-full bg-[#F97316] animate-ping"></span>
+        <span class="w-2 h-2 rounded-full bg-[#22D3EE] animate-ping"></span>
         Click to view info & download
       </span>
     </div>
@@ -119,7 +128,7 @@ const accentBadgeColor = {
       </div>
 
       <!-- Title -->
-      <h3 class="font-mono text-base font-bold text-white tracking-tight group-hover:text-[#F97316] transition-colors line-clamp-1 mb-1" title={title}>
+      <h3 class="font-mono text-base font-bold text-white tracking-tight group-hover:text-[#22D3EE] transition-colors line-clamp-1 mb-1" title={title}>
         {title}
       </h3>
 
@@ -137,14 +146,14 @@ const accentBadgeColor = {
     <!-- Card Action Button -->
     <div class="mt-4 pt-3 border-t border-main flex items-center justify-between gap-2">
       <span class="text-[11px] font-mono text-muted flex items-center gap-1">
-        <svg class="w-3.5 h-3.5 text-[#06B6D4]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <svg class="w-3.5 h-3.5 text-[#FF5722]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10" />
         </svg>
         {downloads} downloads
       </span>
 
       <span
-        class="inline-flex items-center gap-1 px-3 py-1 rounded-md text-xs font-mono font-medium text-white bg-white/[0.06] group-hover:bg-[#F97316] border border-main group-hover:border-[#F97316] transition-all duration-200"
+        class="inline-flex items-center gap-1 px-3 py-1 rounded-md text-xs font-mono font-medium text-white bg-white/[0.06] group-hover:bg-[#22D3EE] border border-main group-hover:border-[#22D3EE] transition-all duration-200"
       >
         <span>Get Game</span>
         <svg class="w-3 h-3 group-hover:translate-x-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
