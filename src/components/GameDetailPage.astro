@@ -1,0 +1,905 @@
+---
+// GameDetailPage.astro - Premium Game Detail & Download Component
+import Layout from '../layouts/Layout.astro';
+import Navbar from './Navbar.astro';
+import Footer from './Footer.astro';
+import GameCard from './GameCard.astro';
+import { games, type Game } from '../data/games';
+import { type Language } from '../i18n/translations';
+
+interface Props {
+  game: Game;
+  lang?: Language;
+}
+
+const { game, lang = 'en' } = Astro.props;
+
+const localizedTitles: Record<Language, string> = {
+  en: `${game.title} Free Download (${game.version}) — YonkoStash`,
+  hi: `${game.title} फ्री डाउनलोड (${game.version}) — YonkoStash`,
+  hinglish: `${game.title} Free Direct Download (${game.version}) — YonkoStash`,
+  gu: `${game.title} ફ્રી ડાઉનલોડ (${game.version}) — YonkoStash`,
+  es: `Descargar ${game.title} Gratis (${game.version}) — YonkoStash`,
+  fr: `Télécharger ${game.title} Gratuit (${game.version}) — YonkoStash`,
+  zh: `${game.title} 免费下载 (${game.version}) — YonkoStash`,
+  ja: `${game.title} 無料ダウンロード (${game.version}) — YonkoStash`,
+};
+
+const title = localizedTitles[lang] || localizedTitles.en;
+const description = `Download ${game.title} for PC. Direct UploadHaven mirrors, zero ads, SHA-256 verified. ${game.size} • Bounty: ${game.bounty}.`;
+
+const relatedGames = games
+  .filter((g) => g.slug !== game.slug && g.genres.some((genre) => game.genres.includes(genre)))
+  .slice(0, 4);
+
+function getYouTubeEmbedUrl(url: string | undefined): string | undefined {
+  if (!url) return undefined;
+  
+  let videoId = '';
+  
+  try {
+    if (url.includes('youtu.be/')) {
+      videoId = url.split('youtu.be/')[1]?.split('?')[0];
+    } else if (url.includes('youtube.com/watch')) {
+      const urlObj = new URL(url);
+      videoId = urlObj.searchParams.get('v') || '';
+    } else if (url.includes('/embed/')) {
+      videoId = url.split('/embed/')[1]?.split('?')[0];
+    }
+  } catch(e) {}
+
+  if (videoId) {
+    return `https://www.youtube-nocookie.com/embed/${videoId}`;
+  }
+  
+  return url;
+}
+
+const gameplayEmbedUrl = getYouTubeEmbedUrl(game.gameplayVideo);
+const homeUrl = lang === 'en' ? '/' : `/${lang}`;
+const bountiesUrl = lang === 'en' ? '/#bounties' : `/${lang}#bounties`;
+---
+
+<Layout 
+  title={title}
+  description={description}
+  currentLang={lang}
+  image={game.banner}
+>
+  <Navbar />
+
+  <main class="flex-1">
+    
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!--  CINEMATIC HERO BANNER                                        -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <section class="relative overflow-hidden">
+      <!-- Backdrop -->
+      <div class="absolute inset-0">
+        <img 
+          src={game.banner} 
+          alt="" 
+          aria-hidden="true"
+          class="w-full h-full object-cover object-top scale-110 blur-sm opacity-30"
+        />
+        <div class="absolute inset-0 bg-gradient-to-b from-[#0A0A0F]/60 via-[#0A0A0F]/80 to-[#0A0A0F]"></div>
+        <div class="absolute inset-0 bg-gradient-to-r from-[#0A0A0F] via-transparent to-[#0A0A0F]/50"></div>
+      </div>
+
+      <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-10">
+        <nav class="flex items-center gap-1.5 text-[11px] font-mono text-muted mb-6" aria-label="Breadcrumb">
+          <a href={homeUrl} class="hover:text-[#FF5722] transition-colors">Home</a>
+          <svg class="w-3 h-3 text-muted/50" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
+          <a href={bountiesUrl} class="hover:text-[#FF5722] transition-colors">Bounties</a>
+          <svg class="w-3 h-3 text-muted/50" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
+          <span class="text-main truncate max-w-[200px]">{game.title}</span>
+        </nav>
+
+        <!-- Hero Layout: Left info + Right cover -->
+        <div class="flex flex-col lg:flex-row gap-8 items-start">
+
+          <!-- Left: Game Info -->
+          <div class="flex-1 min-w-0">
+            <!-- Status Tags -->
+            <div class="flex flex-wrap items-center gap-2 mb-4">
+              {game.isHot && (
+                <span class="px-2.5 py-1 rounded-md text-[10px] font-mono font-bold uppercase tracking-wider bg-[#EF4444] text-white shadow-lg shadow-red-500/30 flex items-center gap-1">
+                  <span>🔥</span> Highest Bounty
+                </span>
+              )}
+              <span class="px-2.5 py-1 rounded-md text-[10px] font-mono font-semibold bg-emerald-500/15 text-emerald-400 border border-emerald-500/25 flex items-center gap-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Verified Working
+              </span>
+              <span class="px-2.5 py-1 rounded-md text-[10px] font-mono font-semibold bg-white/5 text-muted border border-main">
+                {game.version}
+              </span>
+            </div>
+
+            <!-- Title -->
+            <h1 class="text-3xl sm:text-4xl lg:text-[42px] font-mono font-extrabold text-white tracking-tight leading-tight mb-3">
+              {game.title}
+            </h1>
+
+            <!-- Tagline -->
+            <p class="text-base text-muted font-sans leading-relaxed max-w-2xl mb-5">
+              {game.tagline}
+            </p>
+
+            <!-- Quick Stats Row -->
+            <div class="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs font-mono mb-6">
+              <div class="flex items-center gap-1.5">
+                <span class="text-amber-400">★</span>
+                <span class="text-white font-bold">{game.rating}</span>
+                <span class="text-muted">/ 5.0</span>
+              </div>
+              <div class="w-px h-3.5 bg-white/10"></div>
+              <div class="flex items-center gap-1.5 text-muted">
+                <svg class="w-3.5 h-3.5 text-[#FF5722]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10" /></svg>
+                <span class="text-white font-semibold">{game.downloads}</span> downloads
+              </div>
+              <div class="w-px h-3.5 bg-white/10"></div>
+              <div class="flex items-center gap-1.5 text-muted">
+                <svg class="w-3.5 h-3.5 text-[#22D3EE]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 7v10c0 2 1 3 3 3h10c2 0 3-1 3-3V7c0-2-1-3-3-3H7c-2 0-3 1-3 3z" /></svg>
+                <span class="text-white font-semibold">{game.size}</span>
+              </div>
+              <div class="w-px h-3.5 bg-white/10"></div>
+              <div class="text-muted">
+                Bounty: <span class="text-[#22D3EE] font-bold">{game.bounty}</span>
+              </div>
+            </div>
+
+            <!-- Genre Pills -->
+            <div class="flex flex-wrap gap-1.5 mb-6">
+              {game.genres.map((g) => (
+                <span class="px-2.5 py-1 rounded-md text-[10px] font-mono uppercase tracking-wider bg-white/[0.04] text-main border border-main">
+                  {g}
+                </span>
+              ))}
+            </div>
+
+            <!-- CTA Buttons -->
+            <div class="flex flex-wrap gap-3">
+              <a 
+                href="#download-portal" 
+                class="inline-flex items-center gap-2.5 px-6 py-3 rounded-xl font-mono font-bold text-sm text-white bg-[#22D3EE] hover:bg-[#F4511E] shadow-xl shadow-cyan-500/25 hover:shadow-orange-400/40 hover:border-[#FF5722] border border-transparent transition-all transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-[#FF5722]"
+              >
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
+                Download Now — {game.size}
+              </a>
+              <a 
+                href="#screenshots" 
+                class="inline-flex items-center gap-2 px-5 py-3 rounded-xl font-mono text-sm text-main bg-white/[0.05] hover:bg-white/[0.1] border border-main hover:border-hover transition-all focus:outline-none focus:ring-2 focus:ring-[#FF5722]"
+              >
+                <svg class="w-4 h-4 text-[#FF5722]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                View Screenshots
+              </a>
+            </div>
+          </div>
+
+          <!-- Right: Cover Image Card -->
+          <div class="w-full lg:w-[340px] shrink-0">
+            <div class="rounded-xl overflow-hidden border border-main shadow-2xl shadow-black/50 bg-mist">
+              <img 
+                src={game.banner} 
+                alt={game.title} 
+                class="w-full aspect-[3/4] object-cover"
+              />
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!--  MAIN CONTENT AREA                                            -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+        <!-- ─── LEFT COLUMN (8 cols) ─── -->
+        <div class="lg:col-span-8 space-y-6">
+
+          <!-- SCREENSHOTS GALLERY -->
+          <section id="screenshots" class="rounded-xl bg-mist border border-main overflow-hidden scroll-mt-24">
+            <div class="px-5 py-3.5 border-b border-main flex items-center justify-between">
+              <h2 class="text-sm font-mono font-bold text-white flex items-center gap-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-[#FF5722]"></span>
+                Screenshots & Media
+              </h2>
+              <span class="text-[10px] font-mono text-muted">Click to preview</span>
+            </div>
+
+            <div class="p-4">
+              <!-- Main Preview -->
+              <div id="main-preview-container" class="relative aspect-video rounded-lg overflow-hidden bg-black/60 border border-main mb-3 group cursor-pointer">
+                <img 
+                  id="main-preview-image" 
+                  src={game.screenshots[0]} 
+                  alt={`${game.title} Screenshot`}
+                  class="w-full h-full object-cover transition-all duration-300"
+                />
+                <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/30 pointer-events-none">
+                  <div class="p-3 rounded-full bg-white/10 backdrop-blur-sm pointer-events-none">
+                    <svg class="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" /></svg>
+                  </div>
+                </div>
+
+                <!-- Main Preview Prev Button -->
+                <button id="main-prev-btn" class="absolute left-2 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/50 text-white hover:bg-black/80 hover:text-[#FF5722] transition-all z-10 border border-white/10 opacity-0 group-hover:opacity-100 hidden sm:block" aria-label="Previous image">
+                  <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+                  </svg>
+                </button>
+
+                <!-- Main Preview Next Button -->
+                <button id="main-next-btn" class="absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/50 text-white hover:bg-black/80 hover:text-[#FF5722] transition-all z-10 border border-white/10 opacity-0 group-hover:opacity-100 hidden sm:block" aria-label="Next image">
+                  <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                  </svg>
+                </button>
+              </div>
+
+              <!-- Thumbnails -->
+              <div class="grid grid-cols-4 gap-2">
+                {game.screenshots.map((shot, idx) => (
+                  <button 
+                    type="button" 
+                    class={`screenshot-thumb relative aspect-video rounded-md overflow-hidden border-2 transition-all cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#FF5722] ${idx === 0 ? 'border-[#FF5722]' : 'border-main hover:border-hover'}`}
+                    data-src={shot}
+                  >
+                    <img src={shot} alt={`Screenshot ${idx + 1}`} class="w-full h-full object-cover" loading="lazy" />
+                    <div class="absolute inset-0 bg-black/0 hover:bg-black/20 transition-colors"></div>
+                  </button>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          <!-- GAMEPLAY VIDEO (Optional) -->
+          {gameplayEmbedUrl && (
+            <section class="rounded-xl bg-mist border border-main overflow-hidden">
+              <div class="px-5 py-3.5 border-b border-main">
+                <h2 class="text-sm font-mono font-bold text-white flex items-center gap-2">
+                  <span class="w-1.5 h-1.5 rounded-full bg-red-500"></span>
+                  Gameplay Trailer
+                </h2>
+              </div>
+              <div class="p-4">
+                <div class="relative aspect-video rounded-lg overflow-hidden bg-black border border-main">
+                  <iframe 
+                    class="w-full h-full"
+                    src={gameplayEmbedUrl} 
+                    title={`${game.title} Gameplay Video`}
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                    referrerpolicy="strict-origin-when-cross-origin" 
+                    allowfullscreen
+                  ></iframe>
+                </div>
+              </div>
+            </section>
+          )}
+
+          <!-- ABOUT THIS GAME -->
+          <section class="rounded-xl bg-mist border border-main overflow-hidden">
+            <div class="px-5 py-3.5 border-b border-main">
+              <h2 class="text-sm font-mono font-bold text-white flex items-center gap-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-[#22D3EE]"></span>
+                About This Game
+              </h2>
+            </div>
+
+            <div class="p-5">
+              <p class="text-sm text-main/80 leading-relaxed font-sans mb-5">
+                {game.description}
+              </p>
+
+              <div class="border-t border-main pt-4">
+                <h3 class="text-xs font-mono font-bold text-white uppercase tracking-wider mb-3 flex items-center gap-2">
+                  <span class="text-emerald-400">✦</span> Repack Features
+                </h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  {game.features.map((feat) => (
+                    <div class="flex items-start gap-2 p-2.5 rounded-lg bg-white/[0.02] border border-white/[0.04]">
+                      <svg class="w-3.5 h-3.5 text-emerald-400 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                      <span class="text-xs text-main font-sans">{feat}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- SYSTEM REQUIREMENTS -->
+          <section class="rounded-xl bg-mist border border-main overflow-hidden">
+            <div class="px-5 py-3.5 border-b border-main">
+              <h2 class="text-sm font-mono font-bold text-white flex items-center gap-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-[#EF4444]"></span>
+                System Requirements
+              </h2>
+            </div>
+
+            <div class="p-5">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <!-- Minimum -->
+                <div class="rounded-lg bg-void border border-main overflow-hidden">
+                  <div class="px-4 py-2.5 border-b border-main bg-[#22D3EE]/5">
+                    <span class="text-[10px] font-mono font-bold text-[#22D3EE] uppercase tracking-wider">Minimum</span>
+                  </div>
+                  <div class="p-4 space-y-3 text-xs font-mono">
+                    <div><span class="text-muted block text-[10px] uppercase tracking-wider mb-0.5">OS</span><span class="text-white">{game.systemRequirements.os}</span></div>
+                    <div><span class="text-muted block text-[10px] uppercase tracking-wider mb-0.5">Processor</span><span class="text-white">{game.systemRequirements.processor}</span></div>
+                    <div><span class="text-muted block text-[10px] uppercase tracking-wider mb-0.5">Memory</span><span class="text-white">{game.systemRequirements.memory}</span></div>
+                    <div><span class="text-muted block text-[10px] uppercase tracking-wider mb-0.5">Graphics</span><span class="text-white">{game.systemRequirements.graphics}</span></div>
+                    <div><span class="text-muted block text-[10px] uppercase tracking-wider mb-0.5">Storage</span><span class="text-white">{game.systemRequirements.storage}</span></div>
+                  </div>
+                </div>
+
+                <!-- Recommended -->
+                <div class="rounded-lg bg-void border border-main overflow-hidden">
+                  <div class="px-4 py-2.5 border-b border-main bg-[#FF5722]/5">
+                    <span class="text-[10px] font-mono font-bold text-[#FF5722] uppercase tracking-wider">Recommended (60 FPS Ultra)</span>
+                  </div>
+                  <div class="p-4 space-y-3 text-xs font-mono">
+                    <div><span class="text-muted block text-[10px] uppercase tracking-wider mb-0.5">OS</span><span class="text-white">Windows 11 (64-bit)</span></div>
+                    <div><span class="text-muted block text-[10px] uppercase tracking-wider mb-0.5">Processor</span><span class="text-white">High-tier 8-core CPU</span></div>
+                    <div><span class="text-muted block text-[10px] uppercase tracking-wider mb-0.5">Memory</span><span class="text-white">16 - 32 GB RAM</span></div>
+                    <div><span class="text-muted block text-[10px] uppercase tracking-wider mb-0.5">Graphics</span><span class="text-white">RTX 3070 / RX 6800 XT (8 GB+)</span></div>
+                    <div><span class="text-muted block text-[10px] uppercase tracking-wider mb-0.5">Storage</span><span class="text-white">NVMe SSD recommended</span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+        </div>
+
+        <!-- ─── RIGHT SIDEBAR (4 cols) ─── -->
+        <div class="lg:col-span-4 space-y-5">
+
+          <!-- QUICK DOWNLOAD CARD (Sticky) -->
+          <div class="lg:sticky lg:top-20">
+
+            <!-- Sidebar Download -->
+            <div class="rounded-xl bg-mist border border-[#22D3EE]/30 overflow-hidden mb-5 shadow-lg shadow-cyan-500/5">
+              <div class="p-5 bg-gradient-to-br from-[#22D3EE]/10 via-transparent to-transparent">
+                <div class="flex items-center gap-2 mb-3">
+                  <div class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></div>
+                  <span class="text-[10px] font-mono font-bold text-emerald-400 uppercase tracking-wider">Ready to Download</span>
+                </div>
+
+                <div class="text-xl font-mono font-extrabold text-white mb-1">{game.size}</div>
+                <div class="text-[11px] font-mono text-muted mb-4">Pre-installed repack • {game.version}</div>
+
+                <a 
+                  href={game.downloadUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  download
+                  class="w-full inline-flex items-center justify-center gap-2.5 px-5 py-3 rounded-lg font-mono font-bold text-sm text-white bg-gradient-to-r from-[#22D3EE] to-[#EF4444] hover:from-[#ea580c] hover:to-[#dc2626] shadow-lg shadow-cyan-500/25 hover:shadow-cyan-500/40 transition-all transform hover:-translate-y-0.5"
+                >
+                  <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
+                  Download via UploadHaven
+                </a>
+
+                <div class="flex items-center gap-2 mt-3 text-[10px] font-mono text-muted">
+                  <svg class="w-3 h-3 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
+                  SHA-256 verified • No malware • Ad-free
+                </div>
+              </div>
+            </div>
+
+            <!-- GAME INFO TABLE -->
+            <div class="rounded-xl bg-mist border border-main overflow-hidden mb-5">
+              <div class="px-4 py-3 border-b border-main">
+                <h3 class="text-xs font-mono font-bold text-white uppercase tracking-wider">Game Details</h3>
+              </div>
+
+              <div class="divide-y divide-white/[0.04]">
+                <div class="px-4 py-2.5 flex items-center justify-between">
+                  <span class="text-[11px] font-mono text-muted">Developer</span>
+                  <span class="text-[11px] font-mono text-white font-medium text-right max-w-[55%] truncate">{game.developer}</span>
+                </div>
+                <div class="px-4 py-2.5 flex items-center justify-between">
+                  <span class="text-[11px] font-mono text-muted">Publisher</span>
+                  <span class="text-[11px] font-mono text-white font-medium text-right max-w-[55%] truncate">{game.publisher}</span>
+                </div>
+                <div class="px-4 py-2.5 flex items-center justify-between">
+                  <span class="text-[11px] font-mono text-muted">Release Date</span>
+                  <span class="text-[11px] font-mono text-white font-medium">{game.releaseDate}</span>
+                </div>
+                <div class="px-4 py-2.5 flex items-center justify-between">
+                  <span class="text-[11px] font-mono text-muted">File Size</span>
+                  <span class="text-[11px] font-mono text-[#FF5722] font-bold">{game.size}</span>
+                </div>
+                <div class="px-4 py-2.5 flex items-center justify-between">
+                  <span class="text-[11px] font-mono text-muted">Downloads</span>
+                  <span class="text-[11px] font-mono text-white font-medium">{game.downloads}</span>
+                </div>
+                <div class="px-4 py-2.5 flex items-center justify-between">
+                  <span class="text-[11px] font-mono text-muted">Status</span>
+                  <span class="text-[11px] font-mono text-emerald-400 font-bold flex items-center gap-1">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                    Working • No DRM
+                  </span>
+                </div>
+              </div>
+
+              <!-- Tags -->
+              <div class="px-4 py-3 border-t border-main">
+                <div class="flex flex-wrap gap-1.5">
+                  {game.genres.map((g) => (
+                    <span class="px-2 py-0.5 rounded text-[9px] font-mono uppercase tracking-wide bg-white/[0.04] text-muted border border-main">
+                      {g}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <!-- VERIFICATION BADGE -->
+            <div class="rounded-xl bg-gradient-to-br from-emerald-500/5 to-[#14141F] border border-emerald-500/15 overflow-hidden">
+              <div class="p-4 space-y-2.5">
+                <div class="flex items-center gap-2">
+                  <svg class="w-4 h-4 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
+                  <span class="text-xs font-mono font-bold text-emerald-400">Cryptographically Verified</span>
+                </div>
+                <p class="text-[10px] text-muted font-mono leading-relaxed">
+                  Scanned against 70+ antivirus engines via VirusTotal. Hash-verified pre & post archival.
+                </p>
+                <div class="p-2 rounded-md bg-void border border-white/[0.04] text-[9px] text-muted break-all font-mono leading-relaxed">
+                  SHA256: 8f4b29a1c6e4e89923a4ff82...
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ═══════════════════════════════════════════════════════════ -->
+      <!--  DOWNLOAD PORTAL (Full-width)                              -->
+      <!-- ═══════════════════════════════════════════════════════════ -->
+      <section id="download-portal" class="scroll-mt-24 mt-10 rounded-2xl border border-[#22D3EE]/30 overflow-hidden relative">
+        <!-- Ambient Background -->
+        <div class="absolute inset-0 bg-gradient-to-br from-[#22D3EE]/5 via-[#14141F] to-[#FF5722]/5 pointer-events-none"></div>
+        <div class="absolute -right-40 -top-40 w-96 h-96 bg-[#22D3EE]/8 rounded-full blur-[120px] pointer-events-none"></div>
+        <div class="absolute -left-40 -bottom-40 w-96 h-96 bg-[#FF5722]/8 rounded-full blur-[120px] pointer-events-none"></div>
+
+        <div class="relative z-10">
+          <!-- Header Bar -->
+          <div class="px-6 py-4 border-b border-main flex items-center justify-between bg-void/60 backdrop-blur-sm">
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-[#22D3EE] to-[#EF4444] flex items-center justify-center shadow-lg shadow-cyan-500/20">
+                <svg class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
+              </div>
+              <div>
+                <h2 class="text-sm font-mono font-bold text-white">Download Portal</h2>
+                <span class="text-[10px] font-mono text-muted">All mirrors are live & ad-free</span>
+              </div>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+              <span class="text-[10px] font-mono text-emerald-400 font-semibold">Online</span>
+            </div>
+          </div>
+
+          <div class="p-6">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+              <!-- Left: Primary Download -->
+              <div class="space-y-5">
+                <div>
+                  <h3 class="text-xs font-mono font-bold text-white uppercase tracking-wider mb-1">Primary Mirror</h3>
+                  <p class="text-[11px] text-muted font-mono">Direct UploadHaven link • Unthrottled speed</p>
+                </div>
+
+                <!-- Countdown + Button -->
+                <div class="p-5 rounded-xl bg-void border border-main">
+                  <div id="countdown-wrapper" class="text-center mb-4">
+                    <div class="text-[10px] font-mono text-muted uppercase tracking-wider mb-1">
+                      Preparing your direct mirror
+                    </div>
+                    <div class="inline-flex items-center gap-1">
+                      <div id="countdown-progress" class="w-32 h-1.5 bg-white/[0.06] rounded-full overflow-hidden">
+                        <div id="countdown-bar" class="h-full bg-gradient-to-r from-[#22D3EE] to-[#FF5722] rounded-full transition-all duration-1000 ease-linear" style="width: 0%"></div>
+                      </div>
+                      <span id="countdown-timer" class="text-xs font-mono font-bold text-[#FF5722] tabular-nums w-6 text-right">5s</span>
+                    </div>
+                  </div>
+
+                  <a
+                    id="main-download-button"
+                    href={game.downloadUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    download
+                    class="w-full inline-flex items-center justify-center gap-3 px-6 py-3.5 rounded-xl font-mono font-bold text-sm text-white bg-gradient-to-r from-[#22D3EE] to-[#EF4444] hover:from-[#ea580c] hover:to-[#dc2626] shadow-xl shadow-cyan-500/25 hover:shadow-cyan-500/40 transition-all transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-[#22D3EE]"
+                  >
+                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
+                    Start Download ({game.size})
+                  </a>
+
+                  <p class="text-center text-[10px] font-mono text-muted mt-2.5">
+                    UploadHaven direct pipe • Zero redirects
+                  </p>
+                </div>
+
+                <!-- Alternative Mirrors -->
+                <div>
+                  <h4 class="text-[10px] font-mono font-bold text-muted uppercase tracking-wider mb-2.5">
+                    Alternative Mirrors
+                  </h4>
+                  <div class="space-y-1.5">
+                    {game.mirrors.map((mirror, idx) => (
+                      <a 
+                        href={mirror.url} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        class="flex items-center justify-between p-3 rounded-lg bg-void/80 border border-white/[0.04] hover:border-[#FF5722]/40 transition-all group"
+                      >
+                        <div class="flex items-center gap-2.5">
+                          <div class="w-1.5 h-1.5 rounded-full bg-emerald-400"></div>
+                          <div>
+                            <div class="text-[11px] font-mono font-semibold text-white group-hover:text-[#FF5722] transition-colors">{mirror.name}</div>
+                            <div class="text-[9px] text-muted font-mono">{mirror.type} • {mirror.speed}</div>
+                          </div>
+                        </div>
+                        <svg class="w-3.5 h-3.5 text-muted group-hover:text-[#FF5722] transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              <!-- Right: Install Guide -->
+              <div class="space-y-5">
+                <div>
+                  <h3 class="text-xs font-mono font-bold text-white uppercase tracking-wider mb-1">Installation Guide</h3>
+                  <p class="text-[11px] text-muted font-mono">Follow these steps after downloading</p>
+                </div>
+
+                <div class="space-y-3">
+                  <div class="flex gap-3 p-3.5 rounded-lg bg-void border border-white/[0.04]">
+                    <div class="w-6 h-6 rounded-md bg-[#22D3EE]/15 text-[#22D3EE] flex items-center justify-center text-[10px] font-mono font-bold shrink-0">1</div>
+                    <div>
+                      <div class="text-xs font-mono font-semibold text-white mb-0.5">Download the Archive</div>
+                      <div class="text-[11px] text-muted font-sans">Click the download button above. Save the <code class="text-[#FF5722] bg-white/[0.04] px-1 rounded text-[10px]">.zip</code> or <code class="text-[#FF5722] bg-white/[0.04] px-1 rounded text-[10px]">.rar</code> file to your PC.</div>
+                    </div>
+                  </div>
+
+                  <div class="flex gap-3 p-3.5 rounded-lg bg-void border border-white/[0.04]">
+                    <div class="w-6 h-6 rounded-md bg-[#FF5722]/15 text-[#FF5722] flex items-center justify-center text-[10px] font-mono font-bold shrink-0">2</div>
+                    <div>
+                      <div class="text-xs font-mono font-semibold text-white mb-0.5">Extract the Files</div>
+                      <div class="text-[11px] text-muted font-sans">Use <strong class="text-white">7-Zip</strong> or <strong class="text-white">WinRAR</strong> to extract the archive to a clean directory.</div>
+                    </div>
+                  </div>
+
+                  <div class="flex gap-3 p-3.5 rounded-lg bg-void border border-white/[0.04]">
+                    <div class="w-6 h-6 rounded-md bg-[#EF4444]/15 text-[#EF4444] flex items-center justify-center text-[10px] font-mono font-bold shrink-0">3</div>
+                    <div>
+                      <div class="text-xs font-mono font-semibold text-white mb-0.5">Run as Administrator</div>
+                      <div class="text-[11px] text-muted font-sans">Right-click <code class="text-[#FF5722] bg-white/[0.04] px-1 rounded text-[10px]">setup.exe</code> or the game executable → <strong class="text-white">"Run as administrator"</strong>.</div>
+                    </div>
+                  </div>
+
+                  <div class="flex gap-3 p-3.5 rounded-lg bg-void border border-white/[0.04]">
+                    <div class="w-6 h-6 rounded-md bg-emerald-500/15 text-emerald-400 flex items-center justify-center text-[10px] font-mono font-bold shrink-0">4</div>
+                    <div>
+                      <div class="text-xs font-mono font-semibold text-white mb-0.5">Play & Enjoy!</div>
+                      <div class="text-[11px] text-muted font-sans">If missing DLLs appear, install redistributables from the <code class="text-[#FF5722] bg-white/[0.04] px-1 rounded text-[10px]">_Redist</code> folder.</div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Troubleshooting Tip -->
+                <div class="p-3.5 rounded-lg bg-amber-500/5 border border-amber-500/15">
+                  <div class="flex items-start gap-2">
+                    <span class="text-amber-400 text-sm">⚠️</span>
+                    <div>
+                      <div class="text-[11px] font-mono font-semibold text-amber-400 mb-0.5">Antivirus False Positive?</div>
+                      <div class="text-[10px] text-muted font-sans leading-relaxed">
+                        Some antiviruses may flag the crack. This is a false positive common with DRM-free patches. Add the game directory to your antivirus exclusion list.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══════════════════════════════════════════════════════════ -->
+      <!--  RELATED BOUNTIES                                          -->
+      <!-- ═══════════════════════════════════════════════════════════ -->
+      {relatedGames.length > 0 && (
+        <section class="mt-12 pt-10 border-t border-main">
+          <div class="flex items-center justify-between mb-6">
+            <div>
+              <div class="text-[10px] font-mono text-[#22D3EE] uppercase tracking-widest font-bold mb-0.5">You Might Also Like</div>
+              <h2 class="text-xl font-mono font-bold text-white">Related Bounties</h2>
+            </div>
+            <a href="/#bounties" class="text-xs font-mono text-[#FF5722] hover:underline flex items-center gap-1">
+              Browse All
+              <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
+            </a>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {relatedGames.map((relGame) => (
+              <GameCard
+                title={relGame.title}
+                slug={relGame.slug}
+                genres={relGame.genres}
+                size={relGame.size}
+                rating={relGame.rating}
+                downloads={relGame.downloads}
+                isHot={relGame.isHot}
+                version={relGame.version}
+                bounty={relGame.bounty}
+                accentColor={relGame.accentColor}
+                image={relGame.banner}
+              />
+            ))}
+          </div>
+        </section>
+      )}
+
+    </div>
+  </main>
+
+  <!-- Fullscreen Lightbox Modal -->
+  <dialog id="lightbox-modal" class="bg-transparent m-auto p-0 backdrop:bg-black/90 backdrop:backdrop-blur-sm focus:outline-none w-full max-w-7xl max-h-screen overflow-hidden">
+    <div class="relative w-full h-full flex flex-col items-center justify-center p-4 group">
+      <button id="lightbox-close" class="absolute top-4 right-4 sm:top-6 sm:right-8 p-2 rounded-full bg-black/50 text-white hover:bg-black/80 hover:text-[#FF5722] transition-all z-10 border border-white/10" aria-label="Close Lightbox">
+        <svg class="w-6 h-6 sm:w-8 sm:h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+
+      <!-- Prev Button -->
+      <button id="lightbox-prev" class="absolute left-2 sm:left-6 top-1/2 -translate-y-1/2 p-3 rounded-full bg-black/50 text-white hover:bg-black/80 hover:text-[#FF5722] transition-all z-10 border border-white/10 hidden sm:opacity-0 group-hover:opacity-100" aria-label="Previous image">
+        <svg class="w-6 h-6 sm:w-8 sm:h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+        </svg>
+      </button>
+
+      <!-- Next Button -->
+      <button id="lightbox-next" class="absolute right-2 sm:right-6 top-1/2 -translate-y-1/2 p-3 rounded-full bg-black/50 text-white hover:bg-black/80 hover:text-[#FF5722] transition-all z-10 border border-white/10 hidden sm:opacity-0 group-hover:opacity-100" aria-label="Next image">
+        <svg class="w-6 h-6 sm:w-8 sm:h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+        </svg>
+      </button>
+
+      <img id="lightbox-image" src="" alt="Fullscreen Screenshot" class="max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl shadow-black border border-white/10 select-none" />
+    </div>
+  </dialog>
+
+  <Footer />
+</Layout>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!--  CLIENT-SIDE INTERACTIONS                                         -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<script>
+  function setupGamePage() {
+    // ─── Screenshot Switcher ───
+    const mainImg = document.getElementById('main-preview-image') as HTMLImageElement | null;
+    const thumbs = document.querySelectorAll('.screenshot-thumb') as NodeListOf<HTMLButtonElement>;
+    const allScreenshots = Array.from(thumbs).map(t => t.getAttribute('data-src') || '');
+    
+    const mainPrevBtn = document.getElementById('main-prev-btn');
+    const mainNextBtn = document.getElementById('main-next-btn');
+
+    function switchMainImage(index: number) {
+      if (!mainImg || index < 0 || index >= allScreenshots.length) return;
+      
+      const targetSrc = allScreenshots[index];
+      mainImg.style.opacity = '0';
+      mainImg.style.transform = 'scale(1.02)';
+      setTimeout(() => {
+        mainImg.src = targetSrc;
+        mainImg.style.opacity = '1';
+        mainImg.style.transform = 'scale(1)';
+      }, 200);
+
+      // Update active thumb border
+      thumbs.forEach((t, i) => {
+        if (i === index) {
+          t.classList.remove('border-main');
+          t.classList.add('border-[#FF5722]');
+        } else {
+          t.classList.remove('border-[#FF5722]');
+          t.classList.add('border-main');
+        }
+      });
+    }
+
+    thumbs.forEach((thumb, index) => {
+      thumb.addEventListener('click', () => {
+        switchMainImage(index);
+      });
+    });
+
+    function getCurrentMainIndex() {
+      if (!mainImg) return 0;
+      const activeSrc = mainImg.getAttribute('src');
+      let idx = allScreenshots.findIndex(src => src === activeSrc);
+      if (idx === -1) idx = allScreenshots.findIndex(src => mainImg.src.endsWith(src));
+      return idx === -1 ? 0 : idx;
+    }
+
+    if (mainPrevBtn && mainNextBtn) {
+      mainPrevBtn.addEventListener('click', (e) => {
+        e.stopPropagation(); // prevent opening lightbox
+        const idx = getCurrentMainIndex();
+        if (idx > 0) switchMainImage(idx - 1);
+      });
+      mainNextBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const idx = getCurrentMainIndex();
+        if (idx < allScreenshots.length - 1) switchMainImage(idx + 1);
+      });
+    }
+
+    // Keyboard support for main preview
+    document.addEventListener('keydown', (e) => {
+      const lightboxModal = document.getElementById('lightbox-modal') as HTMLDialogElement | null;
+      if (lightboxModal && lightboxModal.open) return; // Lightbox handles its own keydown
+
+      if (e.key === 'ArrowLeft') {
+        const idx = getCurrentMainIndex();
+        if (idx > 0) switchMainImage(idx - 1);
+      } else if (e.key === 'ArrowRight') {
+        const idx = getCurrentMainIndex();
+        if (idx < allScreenshots.length - 1) switchMainImage(idx + 1);
+      }
+    });
+
+    // ─── Lightbox Logic ───
+    const lightboxModal = document.getElementById('lightbox-modal') as HTMLDialogElement | null;
+    const lightboxImage = document.getElementById('lightbox-image') as HTMLImageElement | null;
+    const lightboxCloseBtn = document.getElementById('lightbox-close');
+    const lightboxPrevBtn = document.getElementById('lightbox-prev');
+    const lightboxNextBtn = document.getElementById('lightbox-next');
+    const mainPreviewContainerElem = document.getElementById('main-preview-container');
+
+    let currentLightboxIndex = 0;
+
+    function updateLightboxButtons() {
+      if (allScreenshots.length <= 1) return;
+      
+      if (lightboxPrevBtn) {
+        if (currentLightboxIndex > 0) {
+          lightboxPrevBtn.classList.remove('hidden');
+        } else {
+          lightboxPrevBtn.classList.add('hidden');
+        }
+      }
+      if (lightboxNextBtn) {
+        if (currentLightboxIndex < allScreenshots.length - 1) {
+          lightboxNextBtn.classList.remove('hidden');
+        } else {
+          lightboxNextBtn.classList.add('hidden');
+        }
+      }
+    }
+
+    function showLightboxImage(index: number) {
+      if (index >= 0 && index < allScreenshots.length && lightboxImage) {
+        currentLightboxIndex = index;
+        lightboxImage.src = allScreenshots[index];
+        updateLightboxButtons();
+      }
+    }
+
+    if (lightboxModal && lightboxImage && mainPreviewContainerElem && mainImg) {
+      // Open Lightbox
+      mainPreviewContainerElem.addEventListener('click', () => {
+        currentLightboxIndex = getCurrentMainIndex();
+        showLightboxImage(currentLightboxIndex);
+        lightboxModal.showModal();
+        document.body.style.overflow = 'hidden'; // Prevent background scrolling
+      });
+
+      // Close Lightbox (Button)
+      lightboxCloseBtn?.addEventListener('click', () => {
+        lightboxModal.close();
+      });
+
+      // Close Lightbox (Click Outside)
+      lightboxModal.addEventListener('click', (e) => {
+        if (e.target === lightboxModal) {
+          lightboxModal.close();
+        }
+      });
+      
+      // Handle escape key is native to <dialog>, but we need to restore scroll
+      lightboxModal.addEventListener('close', () => {
+        document.body.style.overflow = '';
+      });
+
+      // Prev/Next Logic
+      lightboxPrevBtn?.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (currentLightboxIndex > 0) showLightboxImage(currentLightboxIndex - 1);
+      });
+
+      lightboxNextBtn?.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (currentLightboxIndex < allScreenshots.length - 1) showLightboxImage(currentLightboxIndex + 1);
+      });
+
+      // Keyboard navigation
+      lightboxModal.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft' && currentLightboxIndex > 0) {
+          showLightboxImage(currentLightboxIndex - 1);
+        } else if (e.key === 'ArrowRight' && currentLightboxIndex < allScreenshots.length - 1) {
+          showLightboxImage(currentLightboxIndex + 1);
+        }
+      });
+    }
+
+
+
+    // ─── Countdown Timer with Progress Bar ───
+    const timerElem = document.getElementById('countdown-timer');
+    const countdownWrapper = document.getElementById('countdown-wrapper');
+    const countdownBar = document.getElementById('countdown-bar') as HTMLDivElement | null;
+    let timeLeft = 5;
+
+    if (timerElem && countdownWrapper && countdownBar) {
+      // Start bar animation
+      requestAnimationFrame(() => {
+        countdownBar.style.width = '20%';
+      });
+
+      const interval = setInterval(() => {
+        timeLeft--;
+        const pct = ((5 - timeLeft) / 5) * 100;
+
+        if (timeLeft > 0) {
+          timerElem.textContent = `${timeLeft}s`;
+          countdownBar.style.width = `${pct}%`;
+        } else {
+          clearInterval(interval);
+          countdownBar.style.width = '100%';
+          setTimeout(() => {
+            countdownWrapper.innerHTML = `
+              <div class="flex items-center justify-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                <span class="text-xs font-mono font-bold text-emerald-400">Mirror link active — click to download</span>
+              </div>
+            `;
+          }, 300);
+        }
+      }, 1000);
+    }
+
+    // ─── Scroll Reveal Fade-in ───
+    const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -40px 0px' };
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          (entry.target as HTMLElement).style.opacity = '1';
+          (entry.target as HTMLElement).style.transform = 'translateY(0)';
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('[data-animate]').forEach((el) => {
+      (el as HTMLElement).style.opacity = '0';
+      (el as HTMLElement).style.transform = 'translateY(16px)';
+      (el as HTMLElement).style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+      observer.observe(el);
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', setupGamePage);
+</script>

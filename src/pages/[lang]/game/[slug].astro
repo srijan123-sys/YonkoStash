@@ -1,0 +1,25 @@
+---
+// [lang]/game/[slug].astro - Localized Game Detail Page for SEO
+import GameDetailPage from '../../../components/GameDetailPage.astro';
+import { games, type Game } from '../../../data/games';
+import { type Language } from '../../../i18n/translations';
+
+export async function getStaticPaths() {
+  const locales: Language[] = ['hi', 'hinglish', 'gu', 'es', 'fr', 'zh', 'ja'];
+  return locales.flatMap((lang) =>
+    games.map((game) => ({
+      params: { lang, slug: game.slug },
+      props: { game, lang },
+    }))
+  );
+}
+
+interface Props {
+  game: Game;
+  lang: Language;
+}
+
+const { game, lang } = Astro.props;
+---
+
+<GameDetailPage game={game} lang={lang} />

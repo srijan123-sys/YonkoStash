@@ -1,0 +1,54 @@
+---
+// [lang]/index.astro - Localized YonkoStash Homepage for SEO
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/Navbar.astro';
+import Hero from '../../components/Hero.astro';
+import GameGrid from '../../components/GameGrid.astro';
+import Footer from '../../components/Footer.astro';
+import { ui, type Language } from '../../i18n/translations';
+
+export function getStaticPaths() {
+  const locales: Language[] = ['hi', 'hinglish', 'gu', 'es', 'fr', 'zh', 'ja'];
+  return locales.map((lang) => ({
+    params: { lang },
+  }));
+}
+
+const { lang } = Astro.params as { lang: Language };
+const dict = ui[lang] || ui['en'];
+
+const localizedTitles: Record<Language, string> = {
+  en: "YonkoStash — High-Performance Ad-Free Gaming Portal",
+  hi: "YonkoStash — हाई-परफॉर्मेंस ऐड-फ्री गेमिंग पोर्टल (डायरेक्ट रीपैक्स)",
+  hinglish: "YonkoStash — Super Fast Ad-Free Desi Gaming Portal (No Fake Buttons)",
+  gu: "YonkoStash — હાઈ-પરફોર્મન્સ જાહેરાત-મુક્ત ગેમિંગ પોર્ટલ",
+  es: "YonkoStash — Portal de Juegos Sin Publicidad de Alto Rendimiento",
+  fr: "YonkoStash — Portail de Jeux Sans Publicité Haute Performance",
+  zh: "YonkoStash — 高性能无广告极速游戏门户",
+  ja: "YonkoStash — 高性能・完全広告なしのゲームポータル",
+};
+
+const title = localizedTitles[lang] || localizedTitles.en;
+const description = dict['hero.subtitle'] || "Next-generation direct game library. Blazing-fast downloads, zero ad-traps, 100% verified repacks with a sleek Vercel x Anime aesthetic.";
+---
+
+<Layout 
+  title={title}
+  description={description}
+  currentLang={lang}
+>
+  <!-- Navigation -->
+  <Navbar />
+
+  <!-- Main Content -->
+  <main id="main-content" class="flex-1">
+    <!-- Hero Section -->
+    <Hero />
+
+    <!-- Game Catalog / The Bounties Grid -->
+    <GameGrid />
+  </main>
+
+  <!-- Footer -->
+  <Footer />
+</Layout>
