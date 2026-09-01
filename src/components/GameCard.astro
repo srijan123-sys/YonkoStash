@@ -35,9 +35,9 @@ const {
 } = Astro.props;
 
 const glowClasses = {
-  orange: "group-hover:border-[#FF5722]/60 group-hover:shadow-[0_0_30px_rgba(34,211,238,0.2)]",
-  red: "group-hover:border-[#EF4444]/60 group-hover:shadow-[0_0_30px_rgba(239,68,68,0.2)]",
-  cyan: "group-hover:border-[#FF5722]/60 group-hover:shadow-[0_0_30px_rgba(34,211,238,0.2)]",
+  orange: "hover:border-[#FF5722]/60 hover:shadow-[0_0_40px_rgba(255,87,34,0.15)]",
+  red: "hover:border-[#EF4444]/60 hover:shadow-[0_0_40px_rgba(239,68,68,0.15)]",
+  cyan: "hover:border-[#22D3EE]/60 hover:shadow-[0_0_40px_rgba(34,211,238,0.15)]",
 }[accentColor];
 
 const accentBadgeColor = {
@@ -51,210 +51,125 @@ const currentLang = Astro.params.lang;
 const gameUrl = currentLang && currentLang !== 'en' ? `${basePrefix}/${currentLang}/game/${slug}/` : `${basePrefix}/game/${slug}/`;
 ---
 
-<div class="card-3d-container w-full h-full">
-  <a 
-    href={gameUrl}
-    class={`game-card-3d group relative flex flex-col rounded-xl bg-mist border border-main overflow-hidden block text-left focus:outline-none focus:ring-2 focus:ring-[#FF5722] cursor-pointer select-none ${glowClasses}`}
-    data-game-card
-    data-title={title.toLowerCase()}
-    data-genres={genres.join(',').toLowerCase()}
-    data-ishot={isHot ? "true" : "false"}
-    data-isshinobi={isShinobiWars ? "true" : "false"}
-    data-isfleet={isGrandFleet ? "true" : "false"}
-    data-isrpg={isJutsuRPG ? "true" : "false"}
-  >
-    
-    <!-- Image / Banner Container (16:9 Aspect Ratio) with 3D Parallax Layer -->
-    <div class="card-depth-img relative w-full aspect-video overflow-hidden bg-void/80">
-      {image ? (
-        <img
-          src={image}
-          alt={`${title} game repack banner`}
-          loading="lazy"
-          decoding="async"
-          class="w-full h-full object-cover scale-100 group-hover:scale-105 transition-all duration-500 ease-out pointer-events-none"
-        />
-      ) : (
-        <div class="w-full h-full relative flex items-center justify-center bg-gradient-to-br from-[#18181B] via-[#27272A] to-[#09090B]">
-          <div class="absolute inset-0 bg-grid-pattern opacity-40"></div>
-          <div class="relative flex flex-col items-center gap-2 p-4 text-center">
-            <div class="w-10 h-10 rounded-lg bg-white/[0.04] border border-main flex items-center justify-center group-hover:border-[#22D3EE]/40 transition-colors">
-              <svg class="w-5 h-5 text-muted group-hover:text-[#22D3EE] transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z" />
-              </svg>
-            </div>
-            <span class="text-[11px] font-mono text-muted uppercase tracking-wider">{title}</span>
+<a 
+  href={gameUrl}
+  class={`group relative flex flex-col rounded-2xl bg-mist border border-main overflow-hidden text-left cursor-pointer select-none transition-all duration-300 transform hover:-translate-y-1.5 hover:scale-[1.015] focus:outline-none focus:ring-2 focus:ring-[#FF5722] ${glowClasses}`}
+  data-game-card
+  data-title={title.toLowerCase()}
+  data-genres={genres.join(',').toLowerCase()}
+  data-ishot={isHot ? "true" : "false"}
+  data-isshinobi={isShinobiWars ? "true" : "false"}
+  data-isfleet={isGrandFleet ? "true" : "false"}
+  data-isrpg={isJutsuRPG ? "true" : "false"}
+>
+  
+  <!-- Image / Banner Container (16:9 Aspect Ratio) -->
+  <div class="relative w-full aspect-video overflow-hidden bg-void/80 border-b border-main">
+    {image ? (
+      <img
+        src={image}
+        alt={`${title} game repack banner`}
+        loading="lazy"
+        decoding="async"
+        class="w-full h-full object-cover scale-100 group-hover:scale-110 transition-transform duration-700 ease-out"
+      />
+    ) : (
+      <div class="w-full h-full relative flex items-center justify-center bg-gradient-to-br from-[#18181B] via-[#27272A] to-[#09090B]">
+        <div class="absolute inset-0 bg-grid-pattern opacity-40"></div>
+        <div class="relative flex flex-col items-center gap-2 p-4 text-center">
+          <div class="w-10 h-10 rounded-lg bg-white/[0.04] border border-main flex items-center justify-center group-hover:border-[#22D3EE]/40 transition-colors duration-500">
+            <svg class="w-5 h-5 text-muted group-hover:text-[#22D3EE] transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z" />
+            </svg>
           </div>
+          <span class="text-[11px] font-mono text-muted uppercase tracking-wider">{title}</span>
         </div>
+      </div>
+    )}
+
+    <!-- Top Overlay Badges -->
+    <div class="absolute top-2.5 left-2.5 right-2.5 flex items-center justify-between pointer-events-none">
+      {isHot ? (
+        <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase tracking-wider bg-gradient-to-r from-[#EF4444] to-[#B91C1C] text-white shadow-lg shadow-red-900/50">
+          <span class="animate-pulse">🔥</span>
+          <span data-i18n="card.top_bounty">Top Bounty</span>
+        </span>
+      ) : (
+        <span class={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-mono font-medium border backdrop-blur-md ${accentBadgeColor}`}>
+          {version}
+        </span>
       )}
 
-      <!-- Top Overlay Badges (Elevated 3D Layer) -->
-      <div class="card-depth-badge absolute top-2.5 left-2.5 right-2.5 flex items-center justify-between pointer-events-none">
-        {isHot ? (
-          <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase tracking-wider bg-[#EF4444] text-white shadow-lg shadow-red-900/50">
-            <span>🔥</span>
-            <span data-i18n="card.top_bounty">Top Bounty</span>
-          </span>
-        ) : (
-          <span class={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-mono font-medium border ${accentBadgeColor}`}>
-            {version}
-          </span>
-        )}
+      <!-- Size Pill Badge -->
+      <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-mono font-semibold bg-void/85 backdrop-blur-md text-main border border-main shadow-sm group-hover:bg-void/95 transition-colors">
+        <svg class="w-3 h-3 text-[#FF5722]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4 7v10c0 2 1 3 3 3h10c2 0 3-1 3-3V7c0-2-1-3-3-3H7c-2 0-3 1-3 3z" />
+        </svg>
+        {size}
+      </span>
+    </div>
 
-        <!-- Size Pill Badge -->
-        <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-mono font-semibold bg-void/85 backdrop-blur-sm text-main border border-main shadow-sm">
-          <svg class="w-3 h-3 text-[#FF5722]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M4 7v10c0 2 1 3 3 3h10c2 0 3-1 3-3V7c0-2-1-3-3-3H7c-2 0-3 1-3 3z" />
-          </svg>
-          {size}
-        </span>
+    <!-- Quick Hover Overlay Action -->
+    <div class="absolute inset-0 bg-gradient-to-t from-[#18181B]/90 via-[#18181B]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+      <span class="inline-flex items-center gap-2 text-xs font-mono font-bold text-white transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 ease-out">
+        <span class="w-2 h-2 rounded-full bg-[#22D3EE] animate-ping"></span>
+        <span data-i18n="card.click_info">View Bounty Details</span>
+      </span>
+    </div>
+  </div>
+
+  <!-- Card Body -->
+  <div class="p-4 flex-1 flex flex-col justify-between relative z-10">
+    
+    <div>
+      <!-- Genre Pills -->
+      <div class="flex flex-wrap gap-1.5 mb-3">
+        {genres.map((genre) => (
+          <span class="px-2 py-0.5 rounded-md text-[9px] font-mono uppercase tracking-wider bg-white/[0.03] text-muted border border-main group-hover:border-white/[0.12] group-hover:text-main transition-colors duration-300">
+            {genre}
+          </span>
+        ))}
       </div>
 
-      <!-- Quick Hover Overlay Action -->
-      <div class="absolute inset-0 bg-gradient-to-t from-[#18181B] via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3 pointer-events-none">
-        <span class="inline-flex items-center gap-1.5 text-xs font-mono font-semibold text-white">
-          <span class="w-2 h-2 rounded-full bg-[#22D3EE] animate-ping"></span>
-          <span data-i18n="card.click_info">Click to view info & download</span>
+      <!-- Title -->
+      <h3 class="font-mono text-[15px] sm:text-base font-bold text-white tracking-tight group-hover:text-[#FF5722] transition-colors duration-300 line-clamp-1 mb-1" title={title}>
+        {title}
+      </h3>
+
+      <!-- Bounty / Metadata Line -->
+      <div class="flex items-center justify-between text-xs text-muted font-mono mt-1.5">
+        <span class="text-[10px] sm:text-[11px] text-muted flex items-center gap-1 group-hover:text-main transition-colors">
+          <span data-i18n="card.bounty">Bounty:</span>
+          <span class="text-[#22D3EE] font-bold tracking-tight">{bounty}</span>
+        </span>
+        <span class="flex items-center gap-1 text-amber-400 text-xs">
+          ★ <span class="text-white font-medium">{rating}</span>
         </span>
       </div>
     </div>
 
-    <!-- Card Body with 3D Depth -->
-    <div class="card-depth-content p-4 flex-1 flex flex-col justify-between">
-      
-      <div>
-        <!-- Genre Pills -->
-        <div class="flex flex-wrap gap-1.5 mb-2.5">
-          {genres.map((genre) => (
-            <span class="px-2 py-0.5 rounded text-[10px] font-mono uppercase tracking-wide bg-white/[0.04] text-muted border border-main group-hover:border-white/[0.12] transition-colors">
-              {genre}
-            </span>
-          ))}
-        </div>
+    <!-- Card Action Button -->
+    <div class="mt-4 pt-4 border-t border-main flex items-center justify-between gap-2">
+      <span class="text-[10px] sm:text-[11px] font-mono text-muted flex items-center gap-1.5 group-hover:text-main transition-colors">
+        <svg class="w-3.5 h-3.5 text-[#FF5722] group-hover:animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10" />
+        </svg>
+        {downloads} <span data-i18n="card.downloads">downloads</span>
+      </span>
 
-        <!-- Title -->
-        <h3 class="font-mono text-base font-bold text-white tracking-tight group-hover:text-[#22D3EE] transition-colors line-clamp-1 mb-1" title={title}>
-          {title}
-        </h3>
-
-        <!-- Bounty / Metadata Line -->
-        <div class="flex items-center justify-between text-xs text-muted font-mono mt-1">
-          <span class="text-[11px] text-muted flex items-center gap-1">
-            <span data-i18n="card.bounty">Bounty:</span>
-            <span class="text-main font-semibold">{bounty}</span>
-          </span>
-          <span class="flex items-center gap-1 text-amber-400 text-xs">
-            ★ <span class="text-main">{rating}</span>
-          </span>
-        </div>
-      </div>
-
-      <!-- Card Action Button (Elevated 3D Layer) -->
-      <div class="mt-4 pt-3 border-t border-main flex items-center justify-between gap-2">
-        <span class="text-[11px] font-mono text-muted flex items-center gap-1">
-          <svg class="w-3.5 h-3.5 text-[#FF5722]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10" />
-          </svg>
-          {downloads} <span data-i18n="card.downloads">downloads</span>
-        </span>
-
-        <span
-          class="card-depth-btn inline-flex items-center gap-1 px-3 py-1 rounded-md text-xs font-mono font-medium text-white bg-white/[0.06] group-hover:bg-[#FF5722] border border-main group-hover:border-[#FF5722] shadow-sm transition-all duration-200"
-        >
-          <span data-i18n="card.get_game">Get Game</span>
-          <svg class="w-3 h-3 group-hover:translate-x-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
-          </svg>
-        </span>
-      </div>
-
+      <span
+        class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-mono font-bold text-white bg-white/[0.04] group-hover:bg-[#FF5722] border border-main group-hover:border-[#FF5722] shadow-sm transition-all duration-300"
+      >
+        <span data-i18n="card.get_game">Get Game</span>
+        <svg class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+        </svg>
+      </span>
     </div>
 
-  </a>
-</div>
+  </div>
 
-<script>
-  // Dynamic 3D interactive physics and click feedback for Game Cards
-  function init3DCardEffects() {
-    const cards = document.querySelectorAll('.game-card-3d') as NodeListOf<HTMLElement>;
+  <!-- Decorative Glow Line on Hover -->
+  <div class="absolute bottom-0 left-0 h-0.5 bg-gradient-to-r from-transparent via-[#FF5722] to-transparent w-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
-    cards.forEach((card) => {
-      // Prevent double attaching
-      if (card.dataset.has3dAttached) return;
-      card.dataset.has3dAttached = 'true';
-
-      let bounds: DOMRect;
-
-      function onMouseMove(e: MouseEvent) {
-        bounds = card.getBoundingClientRect();
-        const mouseX = e.clientX - bounds.left;
-        const mouseY = e.clientY - bounds.top;
-        const centerX = bounds.width / 2;
-        const centerY = bounds.height / 2;
-
-        // Calculate rotation angles (subtle & premium)
-        const rotateX = ((mouseY - centerY) / centerY) * -9;
-        const rotateY = ((mouseX - centerX) / centerX) * 9;
-
-        card.style.transform = `perspective(1000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) translateY(-5px) translateZ(15px)`;
-      }
-
-      function onMouseLeave() {
-        card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px) translateZ(0px)';
-      }
-
-      // 3D Click / Tap Shockwave & Compression Animation
-      function trigger3DClick(e: MouseEvent | TouchEvent) {
-        const rect = card.getBoundingClientRect();
-        let clientX = 0;
-        let clientY = 0;
-
-        if ('touches' in e && e.touches.length > 0) {
-          clientX = e.touches[0].clientX;
-          clientY = e.touches[0].clientY;
-        } else if ('clientX' in e) {
-          clientX = (e as MouseEvent).clientX;
-          clientY = (e as MouseEvent).clientY;
-        } else {
-          clientX = rect.left + rect.width / 2;
-          clientY = rect.top + rect.height / 2;
-        }
-
-        const clickX = clientX - rect.left;
-        const clickY = clientY - rect.top;
-        const centerX = rect.width / 2;
-        const centerY = rect.height / 2;
-
-        // 3D tilt directional reaction on click
-        const tiltX = ((clickY - centerY) / centerY) * -12;
-        const tiltY = ((clickX - centerX) / centerX) * 12;
-
-        card.classList.add('card-3d-pressed');
-        card.style.transform = `perspective(1000px) rotateX(${tiltX.toFixed(2)}deg) rotateY(${tiltY.toFixed(2)}deg) scale3d(0.98, 0.98, 0.98) translateZ(-15px)`;
-
-        // Create 3D shockwave element
-        const shockwave = document.createElement('div');
-        shockwave.className = 'card-click-shockwave';
-        shockwave.style.left = `${clickX}px`;
-        shockwave.style.top = `${clickY}px`;
-        card.appendChild(shockwave);
-
-        setTimeout(() => {
-          shockwave.remove();
-          card.classList.remove('card-3d-pressed');
-          card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px) translateZ(0px)';
-        }, 320);
-      }
-
-      card.addEventListener('mousemove', onMouseMove);
-      card.addEventListener('mouseleave', onMouseLeave);
-      card.addEventListener('mousedown', trigger3DClick);
-      card.addEventListener('touchstart', trigger3DClick, { passive: true });
-    });
-  }
-
-  document.addEventListener('DOMContentLoaded', init3DCardEffects);
-  // Re-run if cards change or on navigation
-  window.addEventListener('load', init3DCardEffects);
-</script>
-
+</a>
