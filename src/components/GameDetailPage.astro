@@ -56,8 +56,9 @@ function getYouTubeEmbedUrl(url: string | undefined): string | undefined {
 }
 
 const gameplayEmbedUrl = getYouTubeEmbedUrl(game.gameplayVideo);
-const homeUrl = lang === 'en' ? '/' : `/${lang}`;
-const bountiesUrl = lang === 'en' ? '/#bounties' : `/${lang}#bounties`;
+const basePrefix = import.meta.env.BASE_URL.replace(/\/$/, '');
+const homeUrl = lang === 'en' ? (basePrefix || '/') : `${basePrefix}/${lang}`;
+const bountiesUrl = `${homeUrl}#bounties`;
 ---
 
 <Layout 
@@ -624,7 +625,7 @@ const bountiesUrl = lang === 'en' ? '/#bounties' : `/${lang}#bounties`;
               <div class="text-[10px] font-mono text-[#22D3EE] uppercase tracking-widest font-bold mb-0.5">You Might Also Like</div>
               <h2 class="text-xl font-mono font-bold text-white">Related Bounties</h2>
             </div>
-            <a href="/#bounties" class="text-xs font-mono text-[#FF5722] hover:underline flex items-center gap-1">
+            <a href={bountiesUrl} class="text-xs font-mono text-[#FF5722] hover:underline flex items-center gap-1">
               Browse All
               <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
             </a>

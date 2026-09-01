@@ -46,8 +46,9 @@ const accentBadgeColor = {
   cyan: "bg-[#FF5722]/15 text-[#FF5722] border-[#FF5722]/30",
 }[accentColor];
 
+const basePrefix = import.meta.env.BASE_URL.replace(/\/$/, '');
 const currentLang = Astro.params.lang;
-const gameUrl = currentLang && currentLang !== 'en' ? `/${currentLang}/game/${slug}` : `/game/${slug}`;
+const gameUrl = currentLang && currentLang !== 'en' ? `${basePrefix}/${currentLang}/game/${slug}` : `${basePrefix}/game/${slug}`;
 ---
 
 <div class="card-3d-container w-full h-full">

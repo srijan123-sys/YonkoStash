@@ -17,12 +17,14 @@ const {
   image = "/favicon-96x96.png"
 } = Astro.props;
 
+const basePrefix = import.meta.env.BASE_URL.replace(/\/$/, '');
 const pathname = Astro.url.pathname;
 const cleanPath = pathname === '/' ? '' : pathname.replace(/\/$/, '');
-const canonicalUrl = `${SITE_URL}${cleanPath === '' ? '/' : cleanPath}`;
+const subpath = cleanPath.startsWith('/YonkoStash') ? cleanPath.replace(/^\/YonkoStash/, '') : cleanPath;
+const canonicalUrl = `${SITE_URL}${subpath === '' ? '/' : subpath}`;
 const hreflangLinks = getHreflangLinks(pathname);
 const htmlLang = currentLang === 'hinglish' ? 'hi-Latn' : currentLang;
-const ogImageUrl = image.startsWith('http://') || image.startsWith('https://') ? image : `${SITE_URL}${image}`;
+const ogImageUrl = image.startsWith('http://') || image.startsWith('https://') ? image : `${SITE_URL}${image.startsWith('/') ? image : `/${image}`}`;
 ---
 
 <!doctype html>
@@ -30,12 +32,12 @@ const ogImageUrl = image.startsWith('http://') || image.startsWith('https://') ?
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="shortcut icon" href="/favicon.ico" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" href={`${basePrefix}/favicon-96x96.png`} sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href={`${basePrefix}/favicon.svg`} />
+    <link rel="shortcut icon" href={`${basePrefix}/favicon.ico`} />
+    <link rel="apple-touch-icon" sizes="180x180" href={`${basePrefix}/apple-touch-icon.png`} />
     <meta name="apple-mobile-web-app-title" content="YonkoStash" />
-    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="manifest" href={`${basePrefix}/site.webmanifest`} />
     <meta name="generator" content={Astro.generator} />
 
     <!-- Canonical & SEO Hreflang Tags (Multilingual SEO Strategy) -->
@@ -66,9 +68,10 @@ const ogImageUrl = image.startsWith('http://') || image.startsWith('https://') ?
     <meta property="twitter:image" content={ogImageUrl} />
     
     <!-- Pass i18n translations dictionary to client -->
-    <script is:inline define:vars={{ translations: ui, pageLang: currentLang }}>
+    <script is:inline define:vars={{ translations: ui, pageLang: currentLang, basePrefix }}>
       window.__I18N_TRANSLATIONS__ = translations;
       window.__CURRENT_PAGE_LANG__ = pageLang;
+      window.__BASE_URL__ = basePrefix;
     </script>
 
     <!-- Theme & i18n Global Initialization Script -->
@@ -168,14 +171,20 @@ const ogImageUrl = image.startsWith('http://') || image.startsWith('https://') ?
         // SEO URL Navigation when user explicitly selects a language
         if (navigate) {
           const supportedLocales = ['hi', 'hinglish', 'gu', 'es', 'fr', 'zh', 'ja'];
-          const segments = window.location.pathname.split('/').filter(Boolean);
+          const basePrefix = window.__BASE_URL__ || '';
+          let path = window.location.pathname;
+          if (basePrefix && path.startsWith(basePrefix)) {
+            path = path.slice(basePrefix.length);
+          }
+          const segments = path.split('/').filter(Boolean);
           if (segments.length > 0 && supportedLocales.includes(segments[0])) {
             segments.shift();
           }
           const baseCleanPath = '/' + segments.join('/');
-          const targetUrl = lang === 'en' 
+          const targetSuffix = lang === 'en' 
             ? (baseCleanPath === '' ? '/' : baseCleanPath)
             : (baseCleanPath === '/' || baseCleanPath === '' ? `/${lang}` : `/${lang}${baseCleanPath}`);
+          const targetUrl = `${basePrefix}${targetSuffix === '' ? '/' : targetSuffix}`;
 
           if (window.location.pathname !== targetUrl) {
             window.location.href = targetUrl;
@@ -186,7 +195,12 @@ const ogImageUrl = image.startsWith('http://') || image.startsWith('https://') ?
       // Auto run translation on load without triggering redirect
       document.addEventListener('DOMContentLoaded', () => {
         // Detect language from URL prefix first
-        const pathSegments = window.location.pathname.split('/').filter(Boolean);
+        let path = window.location.pathname;
+        const basePrefix = window.__BASE_URL__ || '';
+        if (basePrefix && path.startsWith(basePrefix)) {
+          path = path.slice(basePrefix.length);
+        }
+        const pathSegments = path.split('/').filter(Boolean);
         const supportedLocales = ['hi', 'hinglish', 'gu', 'es', 'fr', 'zh', 'ja'];
         let activeLang = 'en';
         if (pathSegments.length > 0 && supportedLocales.includes(pathSegments[0])) {

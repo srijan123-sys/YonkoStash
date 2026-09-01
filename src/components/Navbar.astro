@@ -2,6 +2,9 @@
 // Navbar.astro - Sticky Glassmorphism Header with Anime Theme Accents
 import { games } from '../data/games';
 
+const basePrefix = import.meta.env.BASE_URL.replace(/\/$/, '');
+const homeHref = basePrefix || '/';
+
 const searchData = games.map(game => ({
   id: game.id,
   title: game.title,
@@ -16,7 +19,7 @@ const searchData = games.map(game => ({
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
     
     <!-- Logo & Brand -->
-    <a href="/" class="flex items-center gap-2 group shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#FF5722] rounded-lg">
+    <a href={homeHref} class="flex items-center gap-2 group shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#FF5722] rounded-lg">
       <div class="relative w-8 h-8 rounded bg-gradient-to-br from-[#22D3EE] to-[#FF5722] p-[1px] group-hover:glow-orange transition-all">
         <div class="w-full h-full bg-void rounded flex items-center justify-center">
           <span class="font-mono font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#22D3EE] to-[#FF5722]">Y</span>
@@ -430,7 +433,7 @@ const searchData = games.map(game => ({
       searchEmptyState?.classList.add('hidden');
       if (searchResultsList) {
         searchResultsList.innerHTML = results.map((game: any) => `
-          <a href="/game/${game.slug}" class="flex items-center gap-3 p-2 rounded-lg hover:bg-mist transition-colors group">
+          <a href="${(window as any).__BASE_URL__ || ''}/game/${game.slug}" class="flex items-center gap-3 p-2 rounded-lg hover:bg-mist transition-colors group">
             <div class="relative w-16 h-10 rounded shrink-0 overflow-hidden bg-mist border border-main">
               <img src="${game.banner}" alt="${game.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
             </div>
