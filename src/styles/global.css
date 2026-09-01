@@ -144,7 +144,7 @@
 /* 3D Click / Tap / Active Effect */
 .game-card-3d:active,
 .game-card-3d.card-3d-pressed {
-  transform: scale3d(0.93, 0.93, 0.93) translateZ(-40px) !important;
+  transform: scale3d(0.98, 0.98, 0.98) translateZ(-15px) !important;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.8), 0 0 35px rgba(255, 87, 34, 0.7), inset 0 0 15px rgba(34, 211, 238, 0.3) !important;
   border-color: #FF5722 !important;
   transition: transform 0.12s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.12s ease !important;

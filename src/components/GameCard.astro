@@ -48,7 +48,7 @@ const accentBadgeColor = {
 
 const basePrefix = import.meta.env.BASE_URL.replace(/\/$/, '');
 const currentLang = Astro.params.lang;
-const gameUrl = currentLang && currentLang !== 'en' ? `${basePrefix}/${currentLang}/game/${slug}` : `${basePrefix}/game/${slug}`;
+const gameUrl = currentLang && currentLang !== 'en' ? `${basePrefix}/${currentLang}/game/${slug}/` : `${basePrefix}/game/${slug}/`;
 ---
 
 <div class="card-3d-container w-full h-full">
@@ -230,7 +230,7 @@ const gameUrl = currentLang && currentLang !== 'en' ? `${basePrefix}/${currentLa
         const tiltY = ((clickX - centerX) / centerX) * 12;
 
         card.classList.add('card-3d-pressed');
-        card.style.transform = `perspective(1000px) rotateX(${tiltX.toFixed(2)}deg) rotateY(${tiltY.toFixed(2)}deg) scale3d(0.93, 0.93, 0.93) translateZ(-45px)`;
+        card.style.transform = `perspective(1000px) rotateX(${tiltX.toFixed(2)}deg) rotateY(${tiltY.toFixed(2)}deg) scale3d(0.98, 0.98, 0.98) translateZ(-15px)`;
 
         // Create 3D shockwave element
         const shockwave = document.createElement('div');

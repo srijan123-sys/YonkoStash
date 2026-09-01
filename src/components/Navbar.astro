@@ -114,8 +114,8 @@ const searchData = games.map(game => ({
 
       <!-- Quick Action / Status Badge -->
       <div class="flex items-center gap-2 sm:gap-3">
-        <!-- Language Switcher (Desktop & Mobile) -->
-        <div class="relative" id="lang-switcher-container">
+        <!-- Language Switcher (Desktop) -->
+        <div class="relative hidden sm:block" id="lang-switcher-container">
           <button 
             id="lang-toggle" 
             type="button"
@@ -433,7 +433,7 @@ const searchData = games.map(game => ({
       searchEmptyState?.classList.add('hidden');
       if (searchResultsList) {
         searchResultsList.innerHTML = results.map((game: any) => `
-          <a href="${(window as any).__BASE_URL__ || ''}/game/${game.slug}" class="flex items-center gap-3 p-2 rounded-lg hover:bg-mist transition-colors group">
+          <a href="${(window as any).__BASE_URL__ || ''}/game/${game.slug}/" class="flex items-center gap-3 p-2 rounded-lg hover:bg-mist transition-colors group">
             <div class="relative w-16 h-10 rounded shrink-0 overflow-hidden bg-mist border border-main">
               <img src="${game.banner}" alt="${game.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
             </div>
